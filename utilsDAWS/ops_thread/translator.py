@@ -1,3 +1,15 @@
+''' README
+
+Translate group of text with multithreading using googletrans lib.
+
+Lib. dependency: googletrans
+
+* Please be advised that the API has limited access and will trigger exception if the limit is exceeded!
+
+Retrun the data inplace.
+
+'''
+
 import threading
 import queue
 
@@ -7,15 +19,6 @@ from googletrans import Translator
 __all__ = [ 'translator' ]
 
 # self-defined classes ---------------------------------------------
-# translate group of text with multithreading
-''' README
-
-Please be advised that the Translate class is using Google Trans API.
-The API has limited access and will trigger exception if the limit is exceeded!
-
-Retruned the data inplace.
-
-'''
 class translator():
     # constructor
     def __init__( self, name='trans', concurrent=30, src="es", dest="en" ):

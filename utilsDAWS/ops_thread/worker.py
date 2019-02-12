@@ -1,4 +1,13 @@
+''' README
 
+This class work on a given task for a group of objects.
+
+Input: list of object to be worked on
+
+Return:
+  - the data inplace, or
+  - a file output
+'''
 
 import threading
 import queue
@@ -23,7 +32,7 @@ class worker():
 
         self.timeout = timeout
         self.concurrent = concurrent
-        self.parse_funct = None
+        self.work_funct = None
         self.result_to_file = result_to_file
 
         self.data_list = []
@@ -33,17 +42,20 @@ class worker():
         self.finished = 0
         self._spawn()
 
+    ''' clear temp storages and parameters used by this class '''
     def init( self ):
         self.data_list = []
         self.obj_list = []
         self.finished = 0
 
+    ''' determine the name of the job '''
     def name_with( self, name ):
         self.name = name
         return self
 
+    ''' setting the working function '''
     def work_with( self, funct ):
-        self.parse_funct = funct
+        self.work_funct = funct
         return self
 
     ''' set the data to be parsed '''
@@ -81,8 +93,8 @@ class worker():
         while True:
             obj = self.job_queue.get()
             try:
-                if( self.result_to_file ): self.data_list.extend( self.parse_funct( obj ) )
-                else: self.parse_funct( obj )
+                if( self.result_to_file ): self.data_list.extend( self.work_funct( obj ) )
+                else: self.work_funct( obj )
                 self.lock.acquire()
             except Exception as err:
                 print( str(err) )

@@ -5,7 +5,7 @@ __all__ = [
     'send_req',
 ]
 
-# send a url request
+''' send a url request '''
 def send_req( url, timeout=10, err_msg="" ):
     try:
         r = requests.get( url, timeout=timeout ) # get web code
