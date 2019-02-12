@@ -9,6 +9,6 @@ setup(
     author='Yu-Chang Ho (Andy)',
     author_email='ycaho@ucdavis.edu',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
-    # license='LICENSE.txt',
     long_description=open('README.md').read()
+    # license='LICENSE.txt',
 )
