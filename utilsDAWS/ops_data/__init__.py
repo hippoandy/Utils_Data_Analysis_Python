@@ -1,1 +1,1 @@
-from .functs import *
+from .data import *
