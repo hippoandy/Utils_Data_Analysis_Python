@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='utils_da_py',
+    name='utilsDAWS',
     version='0.0.1',
     description='This package has shared classes and functions for data analysis and scraping purposes.',
     author='Yu-Chang Ho (Andy)',
