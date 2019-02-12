@@ -11,7 +11,6 @@ setup(
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     long_description=open('README.md').read(),
     install_requires=[
-        'textwrap',
         'requests',
         'logging',
     ],
