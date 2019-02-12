@@ -2,7 +2,7 @@
 
 This class work on a given task for a group of objects.
 
-Input: list of object to be worked on
+Input: list of objects to be worked on
 
 Return:
   - the data inplace, or

@@ -1,9 +1,9 @@
 ''' README
 
-This class access group of URLs simultaneously using multi-thread.
+This class access list of URLs simultaneously using multi-thread.
 Try to access the given URLs and see if they are valid.
 
-Input: list of URLa to be tested on
+Input: list of URLsto be tested on
 
 Return the data inplace.
 '''
