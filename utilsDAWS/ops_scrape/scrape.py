@@ -19,7 +19,7 @@ from utilsDAWS.ops_file import write_to_json
 
 from traceback import format_exc
 
-class Scraper():
+class scraper():
     ''' multi-threading scraper '''
     def __init__(self, name='scrape', concurrent=500, base='./data', \
                  timeout=30, parse_func=lambda res: res.text):
