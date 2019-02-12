@@ -1,7 +1,5 @@
 import re
 
-
-
 __all__ = [
     'find_numeric',
     'empty_struct',

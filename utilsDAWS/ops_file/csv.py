@@ -1,7 +1,7 @@
 import json, textwrap
 import glob, os
 
-from utils import ops_data, ops_file
+from utilsDAWS import ops_data, ops_file
 
 __all__ = [
     'json_to_csv', 'list_to_csv'

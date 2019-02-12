@@ -6,8 +6,9 @@ import queue
 import textwrap
 from traceback import format_exc
 
-import config
-from utils import ops_file as rw
+import utilsDAWS.config as config
+
+from utilsDAWS import ops_file as rw
 
 __all__ = [ 'worker' ]
 
