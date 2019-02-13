@@ -20,12 +20,12 @@ __all__ = [ 'requester' ]
 # self-defined classes ---------------------------------------------
 class requester():
     # constructor
-    def __init__( self, name='req', res_key='deletable', timeout=10, concurrent=30 ):
+    def __init__( self, name='req', flag='deletable', timeout=10, concurrent=30 ):
         self.name = name
-        self.res_key = res_key
+        self.flag = flag
         self.timeout = timeout
         self.concurrent = concurrent
-        self.parse_funct = None
+        self.run_funct = None
         self.obj_list = []
         self.job_queue = queue.Queue()
         self.lock = threading.Lock()
@@ -38,8 +38,8 @@ class requester():
         self.finished = 0
 
     ''' set the function to parse accessed url content '''
-    def parse_with( self, funct ):
-        self.parse_funct = funct
+    def run_with( self, funct ):
+        self.run_funct = funct
         return self
 
     ''' set the data to be accesed '''
@@ -62,15 +62,14 @@ class requester():
         while True:
             obj = self.job_queue.get()
             try:
-                obj[ self.res_key ] = False
-                # r = send_req( obj[ 'url' ], self.timeout, '' )
+                obj[ self.flag ] = False
                 try:
                     r = requests.get( obj[ 'url' ], timeout=self.timeout ) # get web code
                     # the parse funct will return if the page is exist
                     # if the page exist, then NOT deletable
-                    if( r != None ): obj[ self.res_key ] = (not self.parse_funct( r ))
+                    if( r != None ): obj[ self.flag ] = (not self.run_funct( r ))
                 except requests.exceptions.ConnectionError:
-                    obj[ self.res_key ] = True
+                    obj[ self.flag ] = True
                 except Exception as err: pass
                 self.lock.acquire()
             except Exception as err:
