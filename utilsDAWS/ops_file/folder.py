@@ -1,6 +1,11 @@
+import errno
 import os
 
-__all__ = [ 'mkdir_p', 'is_parent_dir_exist' ]
+__all__ = [
+    'mkdir_p',
+    'create_parent_dir',
+    'is_parent_dir_exist'
+]
 
 ''' README
 
@@ -9,6 +14,18 @@ Equivalent to UNIX command: '$ mkdir -p'
 Return: Nil
 '''
 def mkdir_p( path ):
+    try: os.makedirs( path )
+    except OSError as exc:
+        if( exc.errno == errno.EEXIST and os.path.isdir( path ) ): pass
+        else: raise
+
+''' README
+
+Create the parent folder for a given file path
+
+Return: Nil
+'''
+def create_parent_dir( path ):
     if( not is_parent_dir_exist( path ) ):
         path_parent = os.path.dirname( path )
         os.makedirs( path_parent, exist_ok=True )
