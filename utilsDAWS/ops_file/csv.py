@@ -7,7 +7,8 @@ from utilsDAWS import ops_file as rw
 from utilsDAWS import config
 
 __all__ = [
-    'json_to_csv', 'list_to_csv'
+    'json_to_csv', 'list_to_csv',
+    'combine_csv_files'
 ]
 
 # write the data from json to csv format file
