@@ -1,5 +1,5 @@
 import json, textwrap
-import glob, os, sys
+import os, glob, sys
 import pandas as pd
 
 from utilsDAWS import ops_data as ops
@@ -104,7 +104,7 @@ def concat_csv_files( dir_files=config.path_data, files=config.f_data_csv, dir_r
         list_.append( df )
 
     df = pd.concat( list_, axis=0, ignore_index=True )
-    df.to_csv( '{}/{}'.format( dir_result, result ), encoding=encode, index=False )
+    df.to_csv( r'{}/{}'.format( dir_result, result ), encoding=encode, index=False )
 
 def merge_csv_files(\
     dir_files=config.path_data,\
@@ -127,9 +127,15 @@ def merge_csv_files(\
         print( f'''Please specify the column for merge!''' )
         sys.exit()
 
+    path_1 = r'{}/{}'.format( dir_files, file_1 )
+    path_2 = r'{}/{}'.format( dir_files, file_2 )
+
+    rw.check_file_exist( path_1 )
+    rw.check_file_exist( path_2 )
+
     # start the operation
-    df1 = pd.read_csv( r'{}/{}'.format( dir_files, file_1 ), header=0, encoding=encode_f )
-    df2 = pd.read_csv( r'{}/{}'.format( dir_files, file_2 ), header=0, encoding=encode_f )
+    df1 = pd.read_csv( path_1, header=0, encoding=encode_f )
+    df2 = pd.read_csv( path_2, header=0, encoding=encode_f )
 
     df = pd.merge( df1, df2, on=list_col )
 
