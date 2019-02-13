@@ -2,7 +2,9 @@
 
 # general file path ---------------------------------------
 path_data = r'./data/'
+f_data_json = r'*.json'
 f_data_csv = r'*.csv'
+f_concated_json = r'concated.json'
 f_concated_csv = r'concated.csv'
 f_merged_csv = r'merged.csv'
 # --------------------------------------- general file path
