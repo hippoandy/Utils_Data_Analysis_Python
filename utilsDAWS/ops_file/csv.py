@@ -11,12 +11,11 @@ __all__ = [
     'concat_csv_files'
 ]
 
-# write the data from json to csv format file
 ''' README
 
-convert the json format data into csv
+Convert the json format data into csv
 
-Parameters:
+Input:
     d_path: path for data files (could be multiple files)
     r_path_f: the result file location
     e_path_f: if error present, the data point will be store in this file
