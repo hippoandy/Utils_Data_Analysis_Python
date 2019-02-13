@@ -22,7 +22,7 @@ save_as_json = write_to_json
 
 def read_from_json( path, encode='utf-8' ):
     ''' return data from json, path="read path" '''
-    with open( path, 'rb', encoding=encode, errors='ignore' ) as f:
+    with open( path, 'r', encoding=encode, errors='ignore' ) as f:
         return json.load( f )
 
 load_json = read_from_json
