@@ -28,7 +28,7 @@ Return: Nil
 def create_parent_dir( path ):
     if( not is_parent_dir_exist( path ) ):
         path_parent = os.path.dirname( path )
-        os.makedirs( path_parent, exist_ok=True )
+        mkdir_p( path_parent )
 
 ''' README
 
@@ -38,5 +38,5 @@ Return: boolean value
 '''
 def is_parent_dir_exist( path ):
     path_parent = os.path.dirname( path )
-    if( not os.path.exists( path_parent ) and os.path.isdir( path_parent ) ): return False
+    if( not os.path.exists( path_parent ) ): return False
     else: return True
