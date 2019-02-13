@@ -20,5 +20,7 @@ setup(
     # license='LICENSE.txt',
 )
 
-# To Install:
-## pip install git+https://github.com/hippoandy/Utils_Data_Analysis_Python
+'''
+To Install:
+$ pip install git+https://github.com/hippoandy/Utils_Data_Analysis_Python
+'''
