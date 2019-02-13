@@ -2,9 +2,13 @@
 
 # general file path ---------------------------------------
 path_data = './data/'
+f_data_csv = '*.csv'
+f_combine_csv = 'combined.csv'
 # --------------------------------------- general file path
 
 # general settings ----------------------------------------
+encoding_f = 'utf-8'
+
 start = 0
 concurrent = 20
 partition = 20
