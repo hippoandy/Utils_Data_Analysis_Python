@@ -1,8 +1,9 @@
 import json, textwrap
 import os, glob
 
-from utilsDAWS import ops_data as ops
 from utilsDAWS import config
+from utilsDAWS import ops_data as ops
+from utilsDAWS import ops_file as rw
 
 __all__ = [
     'write_to_json', 'read_from_json', 'save_as_json', 'load_json',
@@ -10,17 +11,15 @@ __all__ = [
     'concat_json_files'
 ]
 
-def write_to_json( path, data, encode='utf-8' ):
+def write_to_json( path, data, encode=config.encoding_f ):
     ''' write json to current dir, path="out path", data="json serializable data" '''
-    parent = os.path.dirname( path )
-    if( not (os.path.exists( parent ) and os.path.isdir( parent )) ):
-        os.makedirs(parent)
+    rw.create_parent_dir( path )
     with open( path, 'w+', encoding=encode, errors='ignore' ) as f:
         json.dump( data, f )
 
 save_as_json = write_to_json
 
-def read_from_json( path, encode='utf-8' ):
+def read_from_json( path, encode=config.encoding_f ):
     ''' return data from json, path="read path" '''
     with open( path, 'r', encoding=encode, errors='ignore' ) as f:
         return json.load( f )
@@ -28,7 +27,7 @@ def read_from_json( path, encode='utf-8' ):
 load_json = read_from_json
 
 # write error data in json format to log
-def write_to_log_json( path, data, encode='utf-8' ):
+def write_to_log_json( path, data, encode=config.encoding_f ):
     write_to_json( path, data, encode )
 
 '''README
