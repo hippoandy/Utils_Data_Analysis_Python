@@ -47,6 +47,16 @@ def url_country_domain( url ):
 
 ''' README
 
+get the base URL from a long URL.
+
+Return: base URL
+'''
+def get_base_url( url ):
+    try: return re.search( r'^(?:https?:\/\/)?(?:[^@\n])?(?:www\.)?([^:\/\n?]+)', r.url ).group( 0 )
+    except: return invalid_val()
+
+''' README
+
 Find the numeric value within a string.
 
 Return: the numeric value founded
