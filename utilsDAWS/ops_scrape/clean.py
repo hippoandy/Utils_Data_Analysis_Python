@@ -43,10 +43,10 @@ class cleaner():
         self.flag = flag
         self.requester = None
 
-    def init_requester( self, name=name_task, concurrent=concurrent, timeout=timeout, run_with=None, input=[] ):
+    def init_requester( self, name=name_task, concurrent=concurrent, timeout=timeout, run_with=None ):
         self.requester = requester( name=name_task, flag=self.flag, timeout=timeout, concurrent=concurrent )
         self.requester.init()
-        self.requester.run_with( run_with ).input( input )
+        self.requester.run_with( run_with )
         return self
 
     def clean_log( self, dir_logs=config.path_data, logs=config.f_log_sc_json,\
@@ -68,7 +68,7 @@ class cleaner():
                     # TO-DO
                     # determine the name of tmp files
 
-                    self.requester.run()
+                    self.requester.input( content ).run()
 
                     for e in content:
                         if( e[ self.flag ] ): continue # if the URL is marked to be deletable
