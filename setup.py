@@ -4,13 +4,14 @@ from setuptools import setup, find_packages
 
 setup(
     name='utilsDAWS',
-    version='2.2.0',
+    version='2.3.0',
     description='This package has shared classes and functions for data analysis and scraping purposes.',
     author='Yu-Chang Ho (Andy)',
     author_email='ycaho@ucdavis.edu',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     long_description=open('README.md').read(),
     install_requires=[
+        'pathlib',
         'requests',
         'pandas',
         'numpy',
