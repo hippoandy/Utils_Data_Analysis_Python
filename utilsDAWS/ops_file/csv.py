@@ -90,21 +90,21 @@ Combine multiple csv format files into one.
 Return: Nil
 
 '''
-def combine_csv_files( dir_data=config.path_data, data=config.f_data_csv, dir_result=config.path_data, result=config.f_combine_csv, encode=config.encoding_f ):
-    # delete old combined result data
+def combine_csv_files( dir_files=config.path_data, files=config.f_data_csv, dir_result=config.path_data, result=config.f_combine_csv, encode=config.encoding_f ):
+    # delete old combined result file
     pre = r'{}/{}'.format( dir_result, result )
     if( os.path.isfile( pre ) ): os.remove( pre )
 
     # start the combination
     list_ = []
-    for n in glob.glob( r'{}/{}'.format( dir_data, data ) ):
+    for n in glob.glob( r'{}/{}'.format( dir_files, files ) ):
         if( 'err' in str(n) ): continue # prevent from reading the log files
 
         df = pd.read_csv( n, header=0, encoding=config.encoding_f )
         list_.append( df )
 
     df = pd.concat( list_, axis=0, ignore_index=True )
-    df.to_csv( '{}/{}'.format( config.path_data, result ), encoding=encode, index=False )
+    df.to_csv( '{}/{}'.format( dir_result, result ), encoding=encode, index=False )
 
 if __name__ == '__main__':
     pass
