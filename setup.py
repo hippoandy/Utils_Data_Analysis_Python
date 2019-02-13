@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='utilsDAWS',
-    version='2.3.1',
+    version='2.4.0',
     description='This package has shared classes and functions for data analysis and scraping purposes.',
     author='Yu-Chang Ho (Andy)',
     author_email='ycaho@ucdavis.edu',
