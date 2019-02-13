@@ -1,7 +1,10 @@
 import json, textwrap
 import glob, os
+import pandas as pd
 
-from utilsDAWS import ops_data, ops_file
+from utilsDAWS import ops_data as ops
+from utilsDAWS import ops_file as rw
+from utilsDAWS import config
 
 __all__ = [
     'json_to_csv', 'list_to_csv'
@@ -21,13 +24,7 @@ Parameters:
 Author: Yu-Chang Ho (Andy)
 '''
 
-# check if parent dir exist
-def parent_dir_exist( path ):
-    path_parent = os.path.dirname( path )
-    if( not os.path.exists( path_parent ) and os.path.isdir( path_parent ) ):
-        os.makedirs( path_parent, exist_ok=True )
-
-def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="uft-8" ):
+def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
     if( header == "" ):
         print( textwrap.dedent( f'''
             Please specify the csv header in comma seperated string!
@@ -35,7 +32,7 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="uft-8" ):
         '''))
         return
     # make sure the data folder exists
-    parent_dir_exist( r_path_f )
+    rw.mkdir_p( r_path_f )
     # open result data file
     f = open( r_path_f, 'w', encoding=encode, errors='ignore' )
     f.write( '{}\n'.format( header ) )
@@ -44,7 +41,7 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="uft-8" ):
     for n in glob.glob( d_path ):
         if( 'err' in n ): continue
         content = json.loads( open( n, 'r', encoding=encode, errors='ignore' ).read() )
-        if( not ops_data.empty_struct( content ) ):
+        if( not ops.empty_struct( content ) ):
             for e in content:
                 length = len( header.split( ',' ) )
                 dpoint = [ '' ] * length
@@ -54,8 +51,8 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="uft-8" ):
                     if( k in e.keys() ):
                         # prevent from id become a numeric value
                         if( 'id' in k ): dpoint[ i ] = '"{}"'.format( str(e[ k ]) )
-                        elif( ops_data.is_numeric( str(e[ k ]) ) ): dpoint[ i ] = str(e[ k ])
-                        else: dpoint[ i ] = ops_data.comma_to_hyphen( str(e[ k ]) )
+                        elif( ops.is_numeric( str(e[ k ]) ) ): dpoint[ i ] = str(e[ k ])
+                        else: dpoint[ i ] = ops.comma_to_hyphen( str(e[ k ]) )
                     else: dpoint[ i ] = ""
                     i += 1
                     if( i == length ): break
@@ -63,9 +60,9 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="uft-8" ):
                     f.write( '{}\n'.format( ','.join( dpoint ) ) )
                 except: err.append( e )
 
-    if( not ops_data.empty_struct( err ) ):
-        parent_dir_exist( e_path_f )
-        ops_file.write_to_log_json( e_path_f, err )
+    if( not ops.empty_struct( err ) ):
+        rw.mkdir_p( e_path_f )
+        rw.write_to_log_json( e_path_f, err )
     f.close()
 
 def list_to_csv( path, list_, header='', encode='utf-8' ):
@@ -85,6 +82,29 @@ def list_to_csv( path, list_, header='', encode='utf-8' ):
             f.write( l )
             append_newline( f, l )
         f.close()
+
+'''README
+
+Combine multiple csv format files into one.
+
+Return: Nil
+
+'''
+def combine_csv_files( dir_data=config.path_data, data=config.f_data_csv, dir_result=config.path_data, result=config.f_combine_csv, encode=config.encoding_f ):
+    # delete old combined result data
+    pre = r'{}/{}'.format( dir_result, result )
+    if( os.path.isfile( pre ) ): os.remove( pre )
+
+    # start the combination
+    list_ = []
+    for n in glob.glob( r'{}/{}'.format( dir_data, data ) ):
+        if( 'err' in str(n) ): continue # prevent from reading the log files
+
+        df = pd.read_csv( n, header=0, encoding=config.encoding_f )
+        list_.append( df )
+
+    df = pd.concat( list_, axis=0, ignore_index=True )
+    df.to_csv( '{}/{}'.format( config.path_data, result ), encoding=encode, index=False )
 
 if __name__ == '__main__':
     pass
