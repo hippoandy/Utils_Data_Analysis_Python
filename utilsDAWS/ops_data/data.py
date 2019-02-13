@@ -52,7 +52,7 @@ get the base URL from a long URL.
 Return: base URL
 '''
 def get_base_url( url ):
-    try: return re.search( r'^(?:https?:\/\/)?(?:[^@\n])?(?:www\.)?([^:\/\n?]+)', r.url ).group( 0 )
+    try: return re.search( r'^(?:https?:\/\/)?(?:[^@\n])?(?:www\.)?([^:\/\n?]+)', url ).group( 0 )
     except: return invalid_val()
 
 ''' README
