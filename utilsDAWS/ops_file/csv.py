@@ -1,5 +1,5 @@
 import json, textwrap
-import glob, os
+import glob, os, sys
 import pandas as pd
 
 from utilsDAWS import ops_data as ops
@@ -89,9 +89,8 @@ def list_to_csv( path, list_, header='', encode='utf-8' ):
 Combine multiple csv format files into one.
 
 Return: Nil
-
 '''
-def combine_csv_files( dir_files=config.path_data, files=config.f_data_csv, dir_result=config.path_data, result=config.f_combine_csv, encode=config.encoding_f ):
+def concat_csv_files( dir_files=config.path_data, files=config.f_data_csv, dir_result=config.path_data, result=config.f_concated_csv, encode=config.encoding_f ):
     # delete old combined result file
     pre = r'{}/{}'.format( dir_result, result )
     if( os.path.isfile( pre ) ): os.remove( pre )
@@ -106,6 +105,36 @@ def combine_csv_files( dir_files=config.path_data, files=config.f_data_csv, dir_
 
     df = pd.concat( list_, axis=0, ignore_index=True )
     df.to_csv( '{}/{}'.format( dir_result, result ), encoding=encode, index=False )
+
+def merge_csv_files(\
+    dir_files=config.path_data,\
+    file_1='', file_2='',\
+    encode_f=config.encoding_f,
+    dir_result=config.path_data, result=config.f_merged_csv,\
+    encode_result=config.encoding_f,\
+    list_col=[] ):
+
+    # error handling
+    if( file_1 == '' or file_2 == '' ):
+        print( textwrap.dedent( f'''
+            Required two files for the merge!
+            You give:
+                - file 1: {file_1}
+                - file 2: {file_2}
+        ''' ) )
+        sys.exit()
+    if( ops.empty_struct( list_col ) ):
+        print( f'''Please specify the column for merge!''' )
+        sys.exit()
+
+    # start the operation
+    df1 = pd.read_csv( r'{}/{}'.format( dir_files, file_1 ), header=0, encoding=encode_f )
+    df2 = pd.read_csv( r'{}/{}'.format( dir_files, file_2 ), header=0, encoding=encode_f )
+
+    df = pd.merge( df1, df2, on=list_col )
+
+    # commit the result
+    df.to_csv( '{}{}'.format( dir_result, result ), encoding=encode_result, index=False )
 
 if __name__ == '__main__':
     pass
