@@ -107,10 +107,6 @@ class scraper():
                         len(scrape_err_lst): {len(self.scrape_err_lst)}
                         len(parse_err_lst): {len(self.parse_err_lst)}
                 '''))
-                # added by Andy ----------
-                self.job_finished = 0
-                self.reset()
-				# ---------- added by Andy
                 return
             pre_url_lst_sorted = sorted(self.url_lst)
 
@@ -133,7 +129,6 @@ class scraper():
                 len(scrape_err_lst): {len(self.scrape_err_lst)}
                 len(parse_err_lst): {len(self.parse_err_lst)}
         '''))
-        self.reset()
 
     def _save(self):
         ''' save final data. data_lst, scrape_err_lst, parse_err_lst '''
@@ -144,11 +139,13 @@ class scraper():
     def reset(self):
         ''' reset all results, clean for another run '''
         # modified by Andy ----------
+        self.job_finished = 0
         self.data_lst.clear()
         self.scrape_err_lst.clear()
         self.parse_err_lst.clear()
         self.res_tmp_lst.clear()
         # ---------- modified by Andy
+        return self
 
     def _job(self):
         ''' job for each thread, makes res_tmp_lst '''
