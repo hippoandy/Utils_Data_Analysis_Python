@@ -43,8 +43,8 @@ class cleaner():
         self.flag = flag
         self.requester = None
 
-    def init_requester( self, name=name_task, concurrent=concurrent, timeout=timeout, run_with=None ):
-        self.requester = requester( name=name_task, flag=self.flag, timeout=timeout, concurrent=concurrent )
+    def init_requester( self, concurrent=concurrent, timeout=timeout, run_with=None ):
+        self.requester = requester( name=self.name, flag=self.flag, timeout=timeout, concurrent=concurrent )
         self.requester.init()
         self.requester.run_with( run_with )
         return self
