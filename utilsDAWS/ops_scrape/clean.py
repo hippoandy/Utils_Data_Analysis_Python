@@ -5,14 +5,14 @@ Cleaning empty log files created by the scraper
 Author: Yu-Chang Ho
 '''
 
-import glob, os, time
-import textwrap
-import argparse
-
 from utilsDAWS import config
 from utilsDAWS import ops_data as ops
 from utilsDAWS import ops_file as rw
 from utilsDAWS.ops_thread import requester
+
+import glob, os, time
+import textwrap
+import argparse
 
 # parameters ------------------------------------------------------
 path = config.path_data
@@ -33,17 +33,15 @@ __all__ = [
 # init
 class cleaner():
     ''' multi-threading scraper '''
-    def __init__( self, attemp_access=False, flag='deletable', name=config.n_scrape_clean, concurrent=config.concurrent, timeout=config.timeout ):
+    def __init__( self, attemp_access=False, flag='deletable', name=config.n_scrape_clean ):
         self.name = name
-        self.concurrent = concurrent
-        self.timeout = timeout
 
         # if the user wish to test the accessiblility of the failed URLs
         self.attemp_access = attemp_access
         self.flag = flag
         self.requester = None
 
-    def init_requester( self, concurrent=concurrent, timeout=timeout, run_with=None ):
+    def init_requester( self, concurrent=config.concurrent, timeout=config.timeout, run_with=None ):
         self.requester = requester( name=self.name, flag=self.flag, timeout=timeout, concurrent=concurrent )
         self.requester.init()
         self.requester.run_with( run_with )
@@ -56,7 +54,10 @@ class cleaner():
         rw.rm_file( r'{}/{}'.format( dir_result, result ) )
 
         c = 1
-        for f in glob.glob( r'{}{}'.format( dir_logs, logs ) ):
+        p = r'{}/{}'.format( dir_logs, logs )
+        print( p )
+        for f in glob.glob( p ):
+            print( f )
             content = rw.read_from_json( f )
             error = []
             if( not ops.empty_struct( content ) ):
