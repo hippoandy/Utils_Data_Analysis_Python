@@ -109,7 +109,7 @@ class scraper():
                 '''))
                 # added by Andy ----------
                 self.job_finished = 0
-                self._reset()
+                self.reset()
 				# ---------- added by Andy
                 return
             pre_url_lst_sorted = sorted(self.url_lst)
@@ -133,7 +133,7 @@ class scraper():
                 len(scrape_err_lst): {len(self.scrape_err_lst)}
                 len(parse_err_lst): {len(self.parse_err_lst)}
         '''))
-        self._reset()
+        self.reset()
 
     def _save(self):
         ''' save final data. data_lst, scrape_err_lst, parse_err_lst '''
@@ -141,7 +141,7 @@ class scraper():
         write_to_json(self.scrape_err_path, self.scrape_err_lst)
         write_to_json(self.parse_err_path, self.parse_err_lst)
 
-    def _reset(self):
+    def reset(self):
         ''' reset all results, clean for another run '''
         # modified by Andy ----------
         self.data_lst.clear()
