@@ -54,9 +54,7 @@ class cleaner():
         rw.rm_file( r'{}/{}'.format( dir_result, result ) )
 
         c = 1
-        p = r'{}/{}'.format( dir_logs, logs )
-        print( p )
-        for f in glob.glob( p ):
+        for f in glob.glob( r'{}/{}'.format( dir_logs, logs ) ):
             print( f )
             content = rw.read_from_json( f )
             error = []
