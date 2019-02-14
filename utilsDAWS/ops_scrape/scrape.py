@@ -172,7 +172,7 @@ class scraper():
                 self.list_parse_err.append({'url': res.url, 'err': repr(err), 'trace': format_exc() })
             i += 1
             print( f'Parsing..... {i}', end='\r' )
-        print( '\n' )
+        print( '\nParsing completed!\n' )
 
 ''' README
 
@@ -185,6 +185,9 @@ Input:
 def trigger_scraper( name='scrape', in_chunk=False,\
     data=[], parse_funct=(lambda x: x.text),
     start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
+
+    # make sure the data is in the same order
+    data = sorted( data )
 
     # create the scraper object
     s = scraper( concurrent=concurrent, timeout=timeout )
