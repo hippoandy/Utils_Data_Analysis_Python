@@ -8,7 +8,7 @@ Author: Yu-Chang Ho
 from utilsDAWS import config
 from utilsDAWS import ops_data as ops
 from utilsDAWS import ops_file as rw
-from utilsDAWS.ops_thread import requester
+from utilsDAWS.ops_request import requester
 
 import glob, os, time
 import textwrap
