@@ -9,7 +9,6 @@ __all__ = [
 class reporter():
     def __init__( self ):
         self.t_start = time.time()  # program start time
-        self.p_start = None         # record start poing
 
     ''' README
 
@@ -21,17 +20,13 @@ class reporter():
       - t_start: program start time
     '''
     def create_progress_report( self, num_job, current ):
-        if( self.p_start == None ): self.p_start = current
-        total = (num_job - current)
-        completed = (current - self.p_start)
-
         print( textwrap.dedent( f'''\
             ----------------------------------------------------------
             Status Report:
-                Total jobs:     {total}
-                Completed jobs: {completed}
-                Remaining jobs: {total - completed}
-                Percentage:     {100 * completed / total:.2f} (%)
+                Total jobs:     {num_job}
+                Completed jobs: {current}
+                Remaining jobs: {num_job - current}
+                Percentage:     {100 * current / num_job:.2f} (%)
                 Executed for    {time.time() - self.t_start:.2f} (sec)
             ----------------------------------------------------------
         ''' ) )
