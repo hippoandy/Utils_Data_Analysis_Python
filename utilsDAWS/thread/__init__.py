@@ -1,3 +1,3 @@
-from .scraper import *
-from .translator import *
-from .worker import *
+from .scrape import *
+from .trans import *
+from .work import *
