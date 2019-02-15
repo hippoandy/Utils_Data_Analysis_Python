@@ -3,7 +3,9 @@ import textwrap
 
 __all__ = [
     'reporter',
-    'create_scraper_report'
+    'create_scraper_report',
+    'create_cleaner_report',
+    'create_cleaner_attempt_report'
 ]
 
 class reporter():
@@ -82,14 +84,3 @@ def create_cleaner_attempt_report( f_log, len_result ):
             File: {f_log} completed
         --------------------------------------------------
     ''') )
-
-''' README
-
-General progress STDOUT
-
-Input:
-    - completed: num. of job completed
-    - total: num. of total jobs
-'''
-def general_progress( completed, total ):
-    print( f'Process: {100 * completed / total:.2f}%', end='\r' )
