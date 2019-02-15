@@ -266,12 +266,8 @@ def run_with_retry( data, name, name_retry,
             attemp_access=True, \
             run_with=attemp_acc_funct, concurrent=concurrent, timeout=timeout )
 
-        # try:    to_retry = rw.read_from_json( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
-        # except: to_retry = []
-        to_retry = rw.read_from_json( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
-
-        print( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
-        print( to_retry )
+        try:    to_retry = rw.read_from_json( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
+        except: to_retry = []
 
         if( val.empty_struct( to_retry ) ): break
         pre = sorted( to_retry )
