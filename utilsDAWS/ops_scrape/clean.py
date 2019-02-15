@@ -55,7 +55,6 @@ class cleaner():
 
         c = 1
         for f in glob.glob( r'{}/{}'.format( dir_logs, logs ) ):
-            print( f )
             content = rw.read_from_json( f )
             error = []
             if( not ops.empty_struct( content ) ):
@@ -121,7 +120,7 @@ class cleaner():
                 ''') )
                 # delete duplicate items
                 error = ops.list_deduplicated( error )
-                commitment = r'{}/{}'.format( path, f_result_error )
+                commitment = r'{}/{}'.format( path, result )
                 print( textwrap.dedent( f'''
                     Completed!
                     Remaining items: {len( error )}
@@ -131,6 +130,8 @@ class cleaner():
                 rw.write_to_log_json( commitment, error )
 
         print( "Process Completed!" )
+
+from bs4 import BeautifulSoup
 
 # the main function
 if __name__ == '__main__':
