@@ -9,8 +9,8 @@ Return:
   - a file output
 '''
 from utilsDAWS import config
-from utilsDAWS import ops_file as rw
-from utilsDAWS.ops_stdout import report
+from utilsDAWS import rw
+from utilsDAWS.stdout import report
 
 import threading
 import queue
