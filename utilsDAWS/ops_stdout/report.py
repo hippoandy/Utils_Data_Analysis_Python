@@ -8,8 +8,8 @@ __all__ = [
 
 class reporter():
     def __init__( self ):
-        self.t_start = time.time()
-        self.p_start = None        # record start poing
+        self.t_start = time.time()  # program start time
+        self.p_start = None         # record start poing
 
     ''' README
 
