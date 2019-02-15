@@ -75,7 +75,8 @@ class cleaner():
 
                     # if no error exists anymore, delete the log file
                     if( not ops.empty_struct( error ) ):
-                        print( textwrap.dedent( f'''
+                        print( textwrap.dedent( f'''\
+                            --------------------------------------------------
                             Still have items that not able to be removed......
                                 Numbuer of remaining items: {len( error )}
                                 Operation completed for file: {f}
