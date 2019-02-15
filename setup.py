@@ -4,8 +4,8 @@ from setuptools import setup, find_packages
 
 setup(
     name='utilsDAWS',
-    version='2.8.1',
-    description='This package has shared classes and functions for data analysis and scraping purposes.',
+    version='2.8.2',
+    description='This package has shared classes and functions for data analysis and web scraping purposes.',
     author='Yu-Chang Ho (Andy)',
     author_email='ycaho@ucdavis.edu',
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
