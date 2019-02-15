@@ -14,6 +14,7 @@ from utilsDAWS.file import clean
 from utilsDAWS import rw
 from utilsDAWS.stdout import report, stdout
 
+import time
 import threading
 import queue
 import requests
@@ -256,6 +257,8 @@ def run_with_retry( data, name, name_retry,
         trigger_scraper( name=name, in_chunk=True,\
             data=data, parse_funct=parse_funct,\
             start=start, concurrent=concurrent, partition=partition, timeout=timeout )
+
+        time.sleep( config.sleep_med )
 
         # clear the log
         clean.clean_log( name='clear_log_{}'.format( name ), dir_logs=config.path_data, logs='{}*_err.json'.format( name ),\
