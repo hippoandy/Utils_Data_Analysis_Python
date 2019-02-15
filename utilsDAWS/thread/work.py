@@ -113,3 +113,45 @@ class worker():
             t.daemon = True
             t.start()
 # --------------------------------------------- self-defined classes
+
+## TO-DO
+''' README
+
+Trigger the scraper class and perform action
+
+Input:
+  - name: name of the task
+  - in_chunk: whether to perform actions in parts, True/False
+  - data: data input
+  - parse_funct: parsing funct for scraping
+  - start: index for job starting point
+  - concurrent: num. of threads
+  - partition: size of chunk
+  - timeout: timeout for reqests
+'''
+def trigger_scraper( name='scrape', in_chunk=False,\
+    data=[], parse_funct=(lambda x: x.text),
+    start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
+
+    # make sure the data is in the same order
+    data = sorted( data )
+
+    # create the scraper object
+    s = scraper( concurrent=concurrent, timeout=timeout )
+    if( in_chunk ):
+        status = report.reporter()
+        for i in range( start, len( data ), partition ):
+            if( i > len( data ) ): break
+
+            status.create_progress_report( len( data ), i )
+
+            tail = (i + partition)
+            if( tail >= len( data ) ): tail = len( data )
+
+            s.name_with( '{}_{}-{}'.format( name, i, tail ) )
+            s.input( data[ i:tail ] ).parse_with( parse_funct ).run()
+    # run in whole
+    else: s.name_with( name ).input( data ).parse_with( parse_funct ).run()
+
+if __name__ == '__main__':
+    pass
