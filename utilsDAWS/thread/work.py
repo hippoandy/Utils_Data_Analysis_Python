@@ -131,14 +131,15 @@ Input:
   - timeout: timeout for reqests
 '''
 def trigger_worker( name='work', in_chunk=False,\
-    data=[], work_funct=(lambda x: x.text), result_to_file=False,
+    data=[], work_funct=(lambda x: x.text), result_to_file=False,\
+    output_header='', output_name='', output_type='', 
     start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
 
     # make sure the data is in the same order
     data = sorted( data )
 
     # create worker class
-    w = worker( concurrent=concurrent, timeout=timeout, result_to_file=result_to_file )
+    w = worker( name=name, concurrent=concurrent, timeout=timeout, result_to_file=result_to_file )
     if( in_chunk ):
         status = report.reporter()
         for i in range( 0, len(data), partition ):
@@ -149,10 +150,21 @@ def trigger_worker( name='work', in_chunk=False,\
             tail = (i + partition)
             if( tail >= len(data) ): tail = len(data)
             # run by multi-threaded worker
-            w.name_with( name ).input( data[ i:tail ] ).work_with( work_funct ).run()
+            w.input( data[ i:tail ] )
+            
+            if( result_to_file ):
+                w.output( '{}_{}-{}'.format( output_name, i, tail ), output_type ).output_header( output_header )
+
+            w.work_with( work_funct ).run()
 
     # run in whole
-    else: w.name_with( name ).input( data ).work_with( work_funct ).run()
+    else:
+        w.input( data )
+
+        if( result_to_file ):
+            w.output( '{}_{}-{}'.format( output_name, i, tail ), output_type ).output_header( output_header )
+
+        w.work_with( work_funct ).run()
 
 if __name__ == '__main__':
     pass
