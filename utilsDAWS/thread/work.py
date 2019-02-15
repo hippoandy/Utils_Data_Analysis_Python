@@ -102,7 +102,7 @@ class worker():
                 self.lock.acquire()
             finally:
                 self.finished += 1
-                stdout.general_progress( self.finished, len( self.obj_list ) )
+                stdout.general_progress( self.finished, len( self.obj_list ), msg_title )
                 self.lock.release()
                 self.job_queue.task_done()
 

@@ -154,7 +154,7 @@ class scraper():
                 self.l_s_errs.append( { 'url': url, 'err': str(err) } )
             finally:
                 self.finished += 1
-                stdout.general_progress( self.finished, len( self.l_jobs ) )
+                stdout.general_progress( self.finished, len( self.l_jobs ), msg_title )
                 self.lock.release()
                 self.job_queue.task_done()
 
