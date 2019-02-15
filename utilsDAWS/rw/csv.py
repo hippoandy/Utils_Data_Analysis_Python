@@ -2,9 +2,10 @@ import json, textwrap
 import os, glob, sys
 import pandas as pd
 
-from utilsDAWS import ops_data as ops
-from utilsDAWS import ops_file as rw
 from utilsDAWS import config
+from utilsDAWS import rw
+from utilsDAWS import store
+from utilsDAWS import value as val
 
 __all__ = [
     'json_to_csv', 'list_to_csv',
@@ -32,7 +33,7 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
         '''))
         return
     # make sure the data folder exists
-    rw.mkdir_p( r_path_f )
+    store.mkdir_p( r_path_f )
     # open result data file
     f = open( r_path_f, 'w', encoding=encode, errors='ignore' )
     f.write( '{}\n'.format( header ) )
@@ -41,7 +42,7 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
     for n in glob.glob( d_path ):
         if( 'err' in n ): continue
         content = json.loads( open( n, 'r', encoding=encode, errors='ignore' ).read() )
-        if( not ops.empty_struct( content ) ):
+        if( not val.empty_struct( content ) ):
             for e in content:
                 length = len( header.split( ',' ) )
                 dpoint = [ '' ] * length
@@ -51,8 +52,8 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
                     if( k in e.keys() ):
                         # prevent from id become a numeric value
                         if( 'id' in k ): dpoint[ i ] = '"{}"'.format( str(e[ k ]) )
-                        elif( ops.is_numeric( str(e[ k ]) ) ): dpoint[ i ] = str(e[ k ])
-                        else: dpoint[ i ] = ops.comma_to_hyphen( str(e[ k ]) )
+                        elif( val.is_numeric( str(e[ k ]) ) ): dpoint[ i ] = str(e[ k ])
+                        else: dpoint[ i ] = val.comma_to_hyphen( str(e[ k ]) )
                     else: dpoint[ i ] = ""
                     i += 1
                     if( i == length ): break
@@ -60,8 +61,8 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
                     f.write( '{}\n'.format( ','.join( dpoint ) ) )
                 except: err.append( e )
 
-    if( not ops.empty_struct( err ) ):
-        rw.mkdir_p( e_path_f )
+    if( not val.empty_struct( err ) ):
+        store.mkdir_p( e_path_f )
         rw.write_to_log_json( e_path_f, err )
     f.close()
 
@@ -122,15 +123,15 @@ def merge_csv_files(\
                 - file 2: {file_2}
         ''' ) )
         sys.exit()
-    if( ops.empty_struct( list_col ) ):
+    if( val.empty_struct( list_col ) ):
         print( f'''Please specify the column for merge!''' )
         sys.exit()
 
     path_1 = r'{}/{}'.format( dir_files, file_1 )
     path_2 = r'{}/{}'.format( dir_files, file_2 )
 
-    rw.check_file_exist( path_1 )
-    rw.check_file_exist( path_2 )
+    store.check_file_exist( path_1 )
+    store.check_file_exist( path_2 )
 
     # start the operation
     df1 = pd.read_csv( path_1, header=0, encoding=encode_f )

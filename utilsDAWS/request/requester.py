@@ -8,6 +8,8 @@ Input: list of URLsto be tested on
 Return the data inplace.
 '''
 
+from utilsDAWS.stdout import report
+
 import threading
 import queue
 
@@ -50,10 +52,7 @@ class requester():
 
     ''' ignitiate the thread '''
     def run( self ):
-        print( textwrap.dedent( f'''
-            Revisiting the URLs......
-                Number of URLs: {len( self.obj_list )}
-        ''') )
+        print( f'''Number of URLs to re-try: {len( self.obj_list )}''')
         for obj in self.obj_list: self.job_queue.put( obj )
         self.job_queue.join()
         print( 'Requester job finished!' )
@@ -78,7 +77,7 @@ class requester():
                 self.lock.acquire()
             finally:
                 self.finished += 1
-                print(f'process: {100 * self.finished / len(self.obj_list):.2f}%', end='\r')
+                report.general_progress( self.finished, len( self.obj_list ) )
                 self.lock.release()
                 self.job_queue.task_done()
 

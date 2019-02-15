@@ -10,11 +10,11 @@ Retrun the data inplace.
 
 '''
 
+from googletrans import Translator
+
 import threading
 import queue
-
 from traceback import format_exc
-from googletrans import Translator
 
 __all__ = [ 'translator' ]
 

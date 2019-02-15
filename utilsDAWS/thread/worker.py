@@ -8,16 +8,15 @@ Return:
   - the data inplace, or
   - a file output
 '''
+from utilsDAWS import config
+from utilsDAWS import ops_file as rw
+from utilsDAWS.ops_stdout import report
 
 import threading
 import queue
 
 import textwrap
 from traceback import format_exc
-
-import utilsDAWS.config as config
-
-from utilsDAWS import ops_file as rw
 
 __all__ = [ 'worker' ]
 
@@ -101,7 +100,7 @@ class worker():
                 self.lock.acquire()
             finally:
                 self.finished += 1
-                print(f'process: {100 * self.finished / len(self.obj_list):.2f}%', end='\r')
+                report.general_progress( self.finished, len( self.obj_list ) )
                 self.lock.release()
                 self.job_queue.task_done()
 

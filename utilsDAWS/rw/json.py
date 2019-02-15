@@ -2,8 +2,8 @@ import json, textwrap
 import os, glob
 
 from utilsDAWS import config
-from utilsDAWS import ops_data as ops
-from utilsDAWS import ops_file as rw
+from utilsDAWS import store
+from utilsDAWS import value as val
 
 __all__ = [
     'write_to_json', 'read_from_json', 'save_as_json', 'load_json',
@@ -13,7 +13,7 @@ __all__ = [
 
 def write_to_json( path, data, encode=config.encoding_f ):
     ''' write json to current dir, path="out path", data="json serializable data" '''
-    rw.create_parent_dir( path )
+    store.create_parent_dir( path )
     with open( path, 'w+', encoding=encode, errors='ignore' ) as f:
         json.dump( data, f )
 
@@ -47,7 +47,7 @@ def concat_json_files( dir_files=config.path_data, files=config.f_data_json, dir
             except:
                 print( f'''File {n} is not well formated! Skip to the next file......''' )
                 continue
-        if( ops.empty_struct( content ) or content == None ):
+        if( val.empty_struct( content ) or content == None ):
             print( f'''No content of file: {str(n)}! Skip to the next file......''' )
             continue
         concated += content

@@ -3,7 +3,6 @@ import textwrap
 import pandas as pd
 
 __all__ = [
-    'is_api_success', 'api_json_available',
     'find_numeric', 'find_all_numeric',
     'get_unit',
     'empty_struct',
@@ -17,20 +16,6 @@ __all__ = [
     'url_country_domain', 'get_base_url',
     'list_deduplicated',
 ]
-
-''' README
-
-Test if the given API link is accessible.
-
-Retrun: boolean
-'''
-def is_api_success( r ):
-    if( r != None and r.status_code == 200 ): return True
-    else: return False
-
-def api_json_available( r ):
-    try: return not empty_struct( r.json() )
-    except: return False
 
 ''' README
 

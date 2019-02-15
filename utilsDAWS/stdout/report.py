@@ -90,3 +90,14 @@ def create_cleaner_result_report( f_log, len_result ):
             File: {f_log} completed
         --------------------------------------------------
     ''') )
+
+''' README
+
+General progress STDOUT
+
+Input:
+    - completed: num. of job completed
+    - total: num. of total jobs
+'''
+def general_progress( completed, total ):
+    print( f'Process: {100 * completed / total:.2f}%', end='\r' )

@@ -6,12 +6,13 @@ Author: Yu-Chang Ho
 '''
 
 from utilsDAWS import config
-from utilsDAWS import ops_data as ops
-from utilsDAWS import ops_file as rw
-from utilsDAWS.ops_stdout import report
-from utilsDAWS.ops_request import requester
+from utilsDAWS import value as val
+from utilsDAWS.request import requester
+from utilsDAWS import rw
+from utilsDAWS import store
+from utilsDAWS.stdout import report
 
-import glob, os, time
+import glob, time
 import textwrap
 import argparse
 
@@ -20,8 +21,8 @@ path = config.path_data
 name_task = config.n_scrape_clean
 
 
-tar = ops.invalid_val()
-f_result_error = ops.invalid_val()
+tar = val.invalid_val()
+f_result_error = val.invalid_val()
 
 concurrent = config.concurrent
 timeout = config.timeout
@@ -52,13 +53,13 @@ class cleaner():
         dir_result=config.path_data, result=config.f_result_clean_log_json ):
 
         # delete old concated result data
-        rw.rm_file( r'{}/{}'.format( dir_result, result ) )
+        store.rm_file( r'{}/{}'.format( dir_result, result ) )
 
         c = 1
         for f in glob.glob( r'{}/{}'.format( dir_logs, logs ) ):
             content = rw.read_from_json( f )
             error = []
-            if( not ops.empty_struct( content ) ):
+            if( not val.empty_struct( content ) ):
                 if( self.attemp_access ):
                     # create status report
                     report.create_cleaner_report( f, True )
@@ -70,14 +71,14 @@ class cleaner():
                         error.append( e )
 
                     # if no error exists anymore, delete the log file
-                    if( not ops.empty_struct( error ) ):
+                    if( not val.empty_struct( error ) ):
                         report.create_cleaner_result_report( f, len( error ) )
                         rw.write_to_log_json( '{}/{}_{}.json'.format( dir_logs, self.name, c ), error )
-                    os.remove( r"{}".format( f ) )
+                    store.rm_file( r"{}".format( f ) )
                 else: report.create_cleaner_report( f, False )
             else:
                 print( f'''Empty Log file: {str(f)} Deleted!''' )
-                os.remove( r"{}".format( f ) )
+                store.rm_file( r"{}".format( f ) )
             # pause the program a little bit
             # time.sleep( 1 )
             c += 1
@@ -85,17 +86,17 @@ class cleaner():
         if( self.attemp_access ):
             # merge the result into a single file
             still_errs = glob.glob( r'{}/{}_*.json'.format( dir_result, self.name ) )
-            if( not ops.empty_struct( still_errs ) ):
+            if( not val.empty_struct( still_errs ) ):
                 print( f'''Starting to merge the remain error logs into a single file......''' )
                 error = []
                 for f in still_errs:
                     content = rw.read_from_json( f )
-                    if( not ops.empty_struct( content ) ): error += [ e[ 'url' ] for e in content ]
+                    if( not val.empty_struct( content ) ): error += [ e[ 'url' ] for e in content ]
                     # delete the file
-                    os.remove( r"{}".format( f ) )
+                    store.rm_file( r"{}".format( f ) )
 
                 # delete duplicate items
-                error = ops.list_deduplicated( error )
+                error = val.list_deduplicated( error )
                 commitment = r'{}/{}'.format( path, result )
                 print( textwrap.dedent( f'''\
                     Completed!

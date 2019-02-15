@@ -9,8 +9,8 @@ Return: data file commitments.
 '''
 
 from utilsDAWS import config
-from utilsDAWS.ops_file import write_to_json
-from utilsDAWS.ops_stdout import report
+from utilsDAWS.rw import write_to_json
+from utilsDAWS.stdout import report
 
 import threading
 import queue
@@ -149,7 +149,7 @@ class scraper():
                 self.l_s_errs.append( { 'url': url, 'err': str(err) } )
             finally:
                 self.finished += 1
-                print( f'Progress: {100 * self.finished / len(self.l_jobs):.2f}%', end='\r' )
+                report.general_progress( self.finished, len( self.l_jobs ) )
                 self.lock.release()
                 self.job_queue.task_done()
 
