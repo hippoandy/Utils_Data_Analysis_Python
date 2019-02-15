@@ -36,6 +36,7 @@ class requester():
     def init( self ):
         self.obj_list = []
         self.finished = 0
+        return self
 
     ''' set the function to parse accessed url content '''
     def run_with( self, funct ):
@@ -44,11 +45,12 @@ class requester():
 
     ''' set the data to be accesed '''
     def input( self, obj_list ):
-        if( not self.obj_list ): self.obj_list = obj_list
+        self.obj_list = obj_list
         return self
 
     ''' ignitiate the thread '''
     def run( self ):
+        self = self.init()
         print( textwrap.dedent( f'''
             Revisiting the URLs......
                 Number of URLs: {len( self.obj_list )}
