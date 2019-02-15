@@ -87,7 +87,7 @@ class scraper():
     Start the process.
     '''
     def run( self ):
-        self = self.reset()
+
         pre = None
         while( self.l_jobs or \
                self.l_s_errs or \
@@ -104,8 +104,8 @@ class scraper():
                 report.create_scraper_report( len(self.l_data), \
                                               len(self.l_s_errs), \
                                               len(self.l_p_errs), msg="Some error presented!" )
-                # self.l_s_errs.clear()
-                # self.l_p_errs.clear()
+                self.l_s_errs.clear()
+                self.l_p_errs.clear()
 
                 return
 

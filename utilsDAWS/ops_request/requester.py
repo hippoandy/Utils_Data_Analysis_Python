@@ -45,6 +45,7 @@ class requester():
 
     ''' set the data to be accesed '''
     def input( self, obj_list ):
+        self.init()
         self.obj_list = obj_list
         return self
 
