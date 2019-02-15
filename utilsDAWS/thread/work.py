@@ -18,6 +18,10 @@ import queue
 import textwrap
 from traceback import format_exc
 
+# general settings --------------------
+msg_title = '[worker]'
+# -------------------- general settings
+
 __all__ = [ 'worker' ]
 
 # self-defined classes ---------------------------------------------
@@ -76,16 +80,14 @@ class worker():
 
     ''' ignitiate '''
     def run( self ):
-        print( textwrap.dedent( f'''
-            Worker initiated! Number of items: {len( self.obj_list )}
-        ''') )
+        print( f'''{msg_title} Number of items: {len( self.obj_list )}''')
         for obj in self.obj_list: self.job_queue.put( obj )
         self.job_queue.join()
 
         if( self.result_to_file ): 
             # commit the results
             rw.list_to_csv( self.data_path, self.data_list, header=self.out_header )
-        print( 'finished!' )
+        print( f'''{msg_title} Operations finished!''' )
 
     ''' things for the thread to do '''
     def _job( self ):

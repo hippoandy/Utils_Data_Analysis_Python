@@ -23,6 +23,7 @@ from traceback import format_exc
 msg_title = '[scraper]'
 # -------------------- general settings
 
+# self-defined classes ---------------------------------------------
 class scraper():
     ''' multi-threading scraper '''
     def __init__( self, name='scrape', storage=config.path_data,\
@@ -181,6 +182,7 @@ class scraper():
             i += 1
             print( f'{msg_title} Parsing..... {i}', end='\r' )
         print( '\n{msg_title} Parsing completed!\n' )
+# --------------------------------------------- self-defined classes
 
 ''' README
 

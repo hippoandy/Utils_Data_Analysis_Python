@@ -16,6 +16,10 @@ import threading
 import queue
 from traceback import format_exc
 
+# general settings --------------------
+msg_title = '[translator]'
+# -------------------- general settings
+
 __all__ = [ 'translator' ]
 
 # self-defined classes ---------------------------------------------
