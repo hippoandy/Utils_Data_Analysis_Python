@@ -9,7 +9,9 @@ Return: data file commitments.
 '''
 
 from utilsDAWS import config
-from utilsDAWS.rw import write_to_json
+from utilsDAWS import value as val
+from utilsDAWS.file import clean
+from utilsDAWS import rw
 from utilsDAWS.stdout import report, stdout
 
 import threading
@@ -22,6 +24,12 @@ from traceback import format_exc
 # general settings --------------------
 msg_title = '[scraper]'
 # -------------------- general settings
+
+__all__ = [
+    'scraper',
+    'trigger_scraper',
+    'run_until_done',
+]
 
 # self-defined classes ---------------------------------------------
 class scraper():
@@ -134,9 +142,9 @@ class scraper():
     '''
     def _save( self ):
         ''' save final data. l_data, l_s_errs, l_p_errs '''
-        write_to_json( self.path_f_data, self.l_data )
-        write_to_json( self.path_f_scrape_err, self.l_s_errs )
-        write_to_json( self.path_f_parse_err, self.l_p_errs )
+        rw.write_to_json( self.path_f_data, self.l_data )
+        rw.write_to_json( self.path_f_scrape_err, self.l_s_errs )
+        rw.write_to_json( self.path_f_parse_err, self.l_p_errs )
 
     ''' README
     Assign the job for each thread.
@@ -189,14 +197,14 @@ class scraper():
 Trigger the scraper class and perform action
 
 Input:
-  - name: name of the task
-  - in_chunk: whether to perform actions in parts, True/False
-  - data: data input
-  - parse_funct: parsing funct for scraping
-  - start: index for job starting point
-  - concurrent: num. of threads
-  - partition: size of chunk
-  - timeout: timeout for reqests
+    - name: name of the task
+    - in_chunk: whether to perform actions in parts, True/False
+    - data: data input
+    - parse_funct: parsing funct for scraping
+    - start: index for job starting point
+    - concurrent: num. of threads
+    - partition: size of chunk
+    - timeout: timeout for reqests
 '''
 def trigger_scraper( name='scrape', in_chunk=False,\
     data=[], parse_funct=(lambda x: x.text),
@@ -221,6 +229,52 @@ def trigger_scraper( name='scrape', in_chunk=False,\
             s.input( data[ i:tail ] ).parse_with( parse_funct ).run()
     # run in whole
     else: s.name_with( name ).input( data ).parse_with( parse_funct ).run()
+
+''' README
+
+Trigger the scraper class and perform action.
+This funct. will also clear the error log and perform retrial.
+
+Input:
+    - data: data input
+    - name: name of the data files
+    - name_retry: name of retry files
+    - parse_funct: parsing funct for scraping
+    - attemp_acc_funct: funct for retrial
+    - start: index start poing
+    - concurrent: num. of threads
+    - partition: size of chunk
+    - timeout: timeout for reqests
+'''
+def run_until_done( data, name, name_retry,
+    parse_funct, attemp_acc_funct, start, concurrent, partition, timeout, encode ):
+
+    pre = []
+    while( True ):
+        if( len( pre ) ): url = pre
+
+        trigger_scraper( name=name, in_chunk=True,\
+            data=data, parse_funct=parse_funct,\
+            start=start, concurrent=concurrent, partition=partition, timeout=timeout )
+
+        # clear the log
+        clean.clean_log( name='clear_log_{}'.format( name ), dir_logs=config.path_data, logs='{}*_err.json'.format( name ),\
+            dir_result=config.path_data, result='{}_to-retry.json'.format( name_retry ), \
+            attemp_access=True, \
+            run_with=attemp_acc_funct, concurrent=concurrent, timeout=timeout )
+
+        try:    to_retry = rw.read_from_json( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
+        except: to_retry = []
+        if( val.empty_struct( to_retry ) ): break
+        pre = sorted( to_retry )
+
+        if( url == pre ):
+            print( f'''{len( pre )} URLs failed to scrape!''' )
+            break
+
+    # concate
+    rw.concat_json_files( dir_files=config.path_data, files=r'{}_*json'.format( name ), \
+        dir_result=config.path_data, result=r'{}.json'.format( name ), encode=encode )
 
 if __name__ == '__main__':
     pass
