@@ -8,6 +8,7 @@ Author: Yu-Chang Ho
 from utilsDAWS import config
 from utilsDAWS import ops_data as ops
 from utilsDAWS import ops_file as rw
+from utilsDAWS.ops_report import report
 from utilsDAWS.ops_request import requester
 
 import glob, os, time
@@ -59,13 +60,9 @@ class cleaner():
             error = []
             if( not ops.empty_struct( content ) ):
                 if( self.attemp_access ):
-                    print( textwrap.dedent( f'''
-                        Non-empty Log file: {str(f)}
-                            Attempt to access the URLs again......
-                    '''))
-                    # TO-DO
-                    # determine the name of tmp files
-
+                    # create status report
+                    report.create_cleaner_report( f, True )
+                    # trigger the requester
                     self.requester.input( content ).run()
 
                     for e in content:
@@ -74,25 +71,12 @@ class cleaner():
 
                     # if no error exists anymore, delete the log file
                     if( not ops.empty_struct( error ) ):
-                        print( textwrap.dedent( f'''\
-                            --------------------------------------------------
-                            Still have items that not able to be removed......
-                                Numbuer of remaining items: {len( error )}
-                                Operation completed for file: {f}
-                            --------------------------------------------------
-                        ''') )
+                        report.create_cleaner_result_report( f, len( error ) )
                         rw.write_to_log_json( '{}/{}_{}.json'.format( dir_logs, self.name, c ), error )
                     os.remove( r"{}".format( f ) )
-                else:
-                    print( textwrap.dedent( f'''
-                        Non-empty Log file: {str(f)}
-                            Not deleting this file since its not empty
-                    '''))
+                else: report.create_cleaner_report( f, False )
             else:
-                print( textwrap.dedent( f'''
-                    No content of Log file: {str(f)}
-                        Deleting this file......
-                '''))
+                print( f'''Empty Log file: {str(f)} Deleted!''' )
                 os.remove( r"{}".format( f ) )
             # pause the program a little bit
             # time.sleep( 1 )
@@ -102,10 +86,7 @@ class cleaner():
             # merge the result into a single file
             still_errs = glob.glob( r'{}/{}_*.json'.format( dir_result, self.name ) )
             if( not ops.empty_struct( still_errs ) ):
-                print( textwrap.dedent( f'''
-                    Starting to merge the remain error log into a single file:
-                        Number of file to be merged: {len( still_errs )}
-                ''') )
+                print( f'''Starting to merge the remain error logs into a single file......''' )
                 error = []
                 for f in still_errs:
                     content = rw.read_from_json( f )
@@ -113,25 +94,16 @@ class cleaner():
                     # delete the file
                     os.remove( r"{}".format( f ) )
 
-                print( textwrap.dedent( f'''
-                    Merge completed!
-                    Original number of still error items: {len( error )}
-                        Trying to delete duplicated entries......
-                ''') )
                 # delete duplicate items
                 error = ops.list_deduplicated( error )
                 commitment = r'{}/{}'.format( path, result )
                 print( textwrap.dedent( f'''
                     Completed!
-                    Remaining items: {len( error )}
-                        Commit the remaining items into file: {commitment}
+                    Remaining items:    {len( error )}
+                    Commited into file: {commitment}
                 ''') )
                 # commit to a new log file
                 rw.write_to_log_json( commitment, error )
-
-        print( "Process Completed!" )
-
-from bs4 import BeautifulSoup
 
 # the main function
 if __name__ == '__main__':

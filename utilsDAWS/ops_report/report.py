@@ -53,3 +53,40 @@ def create_scraper_report( len_data, len_scrape_err, len_parse_err, msg="Finishe
             Num. of scraping error: {len_scrape_err}
             Num. of parsing error:  {len_parse_err}
     '''))
+
+''' README
+
+Create status report for cleaner class.
+
+Input:
+    - f_log: filename
+    - access_attempt: type of operation
+'''
+def create_cleaner_report( f_log, access_attempt ):
+    if( access_attempt ):
+        print( textwrap.dedent( f'''\
+            Non-empty Log file: {str(f_log)}
+                Attempt to access the URLs again......
+        '''))
+    else:
+        print( textwrap.dedent( f'''\
+            Non-empty Log file: {str(f_log)}
+                Not deleting this file since its not empty
+        '''))
+
+''' README
+
+Create result report for cleaner class.
+
+Input:
+    - f_log: filename
+    - len_result: len of the result data
+'''
+def create_cleaner_result_report( f_log, len_result ):
+    print( textwrap.dedent( f'''\
+        --------------------------------------------------
+        Still have items that not able to be removed......
+            Num. of remaining items: {len_result}
+            File: {f_log} completed
+        --------------------------------------------------
+    ''') )

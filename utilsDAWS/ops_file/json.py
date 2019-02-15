@@ -34,7 +34,7 @@ def write_to_log_json( path, data, encode=config.encoding_f ):
 
 Combine multiple csv format files into one.
 
-Return: Nil
+Return: data file commitment
 '''
 def concat_json_files( dir_files=config.path_data, files=config.f_data_json, dir_result=config.path_data, result=config.f_concated_json, encode=config.encoding_f ):
     concated = []

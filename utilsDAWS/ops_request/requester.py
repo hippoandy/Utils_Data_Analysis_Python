@@ -56,7 +56,7 @@ class requester():
         ''') )
         for obj in self.obj_list: self.job_queue.put( obj )
         self.job_queue.join()
-        print( 'finished!' )
+        print( 'Requester job finished!' )
 
     ''' things for the thread to do '''
     def _job( self ):
