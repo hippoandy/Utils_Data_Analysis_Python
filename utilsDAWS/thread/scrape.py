@@ -114,7 +114,7 @@ class scraper():
             self.l_s_errs.clear()
             self.l_p_errs.clear()
 
-            print( f'Scraping started with {len(self.l_jobs)} jobs......' )
+            print( f'''{msg_title} Scraping started with {len(self.l_jobs)} jobs......''' )
             # put the job into job queue
             for url in self.l_jobs: self.job_queue.put(url)
             self.job_queue.join()
@@ -180,8 +180,8 @@ class scraper():
             except Exception as err:
                 self.l_p_errs.append({'url': res.url, 'err': repr(err), 'trace': format_exc() })
             i += 1
-            print( f'{msg_title} Parsing..... {i}', end='\r' )
-        print( '\n{msg_title} Parsing completed!\n' )
+            print( f'''{msg_title} Parsing..... {i}''', end='\r' )
+        print( f'''\n{msg_title} Parsing completed!\n''' )
 # --------------------------------------------- self-defined classes
 
 ''' README
