@@ -251,7 +251,7 @@ def run_with_retry( data, name, name_retry,
 
     pre = []
     while( True ):
-        if( len( pre ) ): url = pre
+        if( len( pre ) ): data = pre
 
         trigger_scraper( name=name, in_chunk=True,\
             data=data, parse_funct=parse_funct,\
@@ -268,7 +268,7 @@ def run_with_retry( data, name, name_retry,
         if( val.empty_struct( to_retry ) ): break
         pre = sorted( to_retry )
 
-        if( url == pre ):
+        if( data == pre ):
             print( f'''{len( pre )} URLs failed to scrape!''' )
             break
 
