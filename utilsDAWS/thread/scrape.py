@@ -28,7 +28,7 @@ msg_title = '[scraper]'
 __all__ = [
     'scraper',
     'trigger_scraper',
-    'run_until_done',
+    'run_with_retry',
 ]
 
 # self-defined classes ---------------------------------------------
@@ -246,7 +246,7 @@ Input:
     - partition: size of chunk
     - timeout: timeout for reqests
 '''
-def run_until_done( data, name, name_retry,
+def run_with_retry( data, name, name_retry,
     parse_funct, attemp_acc_funct, start, concurrent, partition, timeout, encode ):
 
     pre = []
