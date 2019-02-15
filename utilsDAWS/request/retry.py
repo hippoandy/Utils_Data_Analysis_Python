@@ -8,7 +8,7 @@ Input: list of URLsto be tested on
 Return the data inplace.
 '''
 
-from utilsDAWS.stdout import report
+from utilsDAWS.stdout import stdout
 
 import threading
 import queue
@@ -81,7 +81,7 @@ class retryer():
                 self.lock.acquire()
             finally:
                 self.finished += 1
-                report.general_progress( self.finished, len( self.obj_list ) )
+                stdout.general_progress( self.finished, len( self.obj_list ) )
                 self.lock.release()
                 self.job_queue.task_done()
 
