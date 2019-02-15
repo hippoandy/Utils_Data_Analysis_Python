@@ -54,15 +54,14 @@ class scraper():
         self.l_s_errs.clear()
         self.l_p_errs.clear()
         self.l_tmp.clear()
-        return self
 
     ''' README
     Assign the data input (Type: list).
     Initiate progress tracing variables.
     '''
     def input( self, input ):
-        if( not self.l_jobs ): self.l_jobs = input
-        elif( self.l_jobs ):   self.l_jobs.extend( input )
+        self.reset()
+        self.l_jobs = input
         return self
 
     ''' README
@@ -104,13 +103,9 @@ class scraper():
                 report.create_scraper_report( len(self.l_data), \
                                               len(self.l_s_errs), \
                                               len(self.l_p_errs), msg="Some error presented!" )
-                self.l_s_errs.clear()
-                self.l_p_errs.clear()
-
                 return
 
             pre = sorted( self.l_jobs )
-
             self.l_s_errs.clear()
             self.l_p_errs.clear()
 
