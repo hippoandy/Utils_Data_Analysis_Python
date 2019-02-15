@@ -10,7 +10,7 @@ Return: data file commitments.
 
 from utilsDAWS import config
 from utilsDAWS.ops_file import write_to_json
-from utilsDAWS.ops_report import report
+from utilsDAWS.ops_stdout import report
 
 import threading
 import queue
