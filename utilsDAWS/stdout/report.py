@@ -15,9 +15,9 @@ class reporter():
     Create progress report for iteration.
 
     Input:
-      - num_job: total num. of jobs
-      - current: index for current progress
-      - t_start: program start time
+        - num_job: total num. of jobs
+        - current: index for current progress
+        - t_start: program start time
     '''
     def create_progress_report( self, num_job, current ):
         print( textwrap.dedent( f'''\
@@ -54,20 +54,17 @@ def create_scraper_report( len_data, len_scrape_err, len_parse_err, msg="Finishe
 Create status report for cleaner class.
 
 Input:
-    - f_log: filename
-    - access_attempt: type of operation
+    - msg_title: title
+    - len_remaining: len. of remaing items
+    - f_result: filename
 '''
-def create_cleaner_report( f_log, access_attempt ):
-    if( access_attempt ):
-        print( textwrap.dedent( f'''\
-            Non-empty Log file: {str(f_log)}
-                Attempt to access the URLs again......
-        '''))
-    else:
-        print( textwrap.dedent( f'''\
-            Non-empty Log file: {str(f_log)}
-                Not deleting this file since its not empty
-        '''))
+def create_cleaner_report( msg_title, len_remaining, f_result ):
+    print( textwrap.dedent( f'''\
+        {msg_title} Completed!
+            Remaining items:    {len_remaining}
+            Commited into file: {f_result}
+    ''') )
+
 
 ''' README
 
@@ -77,7 +74,7 @@ Input:
     - f_log: filename
     - len_result: len of the result data
 '''
-def create_cleaner_result_report( f_log, len_result ):
+def create_cleaner_attempt_report( f_log, len_result ):
     print( textwrap.dedent( f'''\
         --------------------------------------------------
         Still have items that not able to be removed......

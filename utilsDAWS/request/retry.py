@@ -14,13 +14,12 @@ import threading
 import queue
 
 import requests
-import textwrap
 from traceback import format_exc
 
-__all__ = [ 'requester' ]
+__all__ = [ 'retryer' ]
 
 # self-defined classes ---------------------------------------------
-class requester():
+class retryer():
     # constructor
     def __init__( self, name='req', flag='deletable', timeout=10, concurrent=30 ):
         self.name = name
@@ -67,7 +66,8 @@ class requester():
                     r = requests.get( obj[ 'url' ], timeout=self.timeout ) # get web code
                     # the parse funct will return if the page is exist
                     # if the page exist, then NOT deletable
-                    if( r != None ): obj[ self.flag ] = (not self.run_funct( r ))
+                    if( r != None and self.run_funct != None ): obj[ self.flag ] = (not self.run_funct( r ))
+                    else: obj[ self.flag ] = False
                 except requests.exceptions.ConnectionError:
                     obj[ self.flag ] = True
                 except Exception as err: pass

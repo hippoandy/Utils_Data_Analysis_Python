@@ -3,8 +3,9 @@ import os, glob, sys
 import pandas as pd
 
 from utilsDAWS import config
+from utilsDAWS import file
+from utilsDAWS import folder
 from utilsDAWS import rw
-from utilsDAWS import store
 from utilsDAWS import value as val
 
 __all__ = [
@@ -33,7 +34,7 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
         '''))
         return
     # make sure the data folder exists
-    store.mkdir_p( r_path_f )
+    folder.mkdir_p( r_path_f )
     # open result data file
     f = open( r_path_f, 'w', encoding=encode, errors='ignore' )
     f.write( '{}\n'.format( header ) )
@@ -62,7 +63,7 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
                 except: err.append( e )
 
     if( not val.empty_struct( err ) ):
-        store.mkdir_p( e_path_f )
+        folder.mkdir_p( e_path_f )
         rw.write_to_log_json( e_path_f, err )
     f.close()
 
@@ -130,8 +131,8 @@ def merge_csv_files(\
     path_1 = r'{}/{}'.format( dir_files, file_1 )
     path_2 = r'{}/{}'.format( dir_files, file_2 )
 
-    store.check_file_exist( path_1 )
-    store.check_file_exist( path_2 )
+    file.check_file_exist( path_1 )
+    file.check_file_exist( path_2 )
 
     # start the operation
     df1 = pd.read_csv( path_1, header=0, encoding=encode_f )

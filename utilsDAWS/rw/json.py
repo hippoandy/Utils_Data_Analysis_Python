@@ -2,7 +2,7 @@ import json, textwrap
 import os, glob
 
 from utilsDAWS import config
-from utilsDAWS import store
+from utilsDAWS import folder
 from utilsDAWS import value as val
 
 __all__ = [
@@ -13,7 +13,7 @@ __all__ = [
 
 def write_to_json( path, data, encode=config.encoding_f ):
     ''' write json to current dir, path="out path", data="json serializable data" '''
-    store.create_parent_dir( path )
+    folder.create_parent_dir( path )
     with open( path, 'w+', encoding=encode, errors='ignore' ) as f:
         json.dump( data, f )
 

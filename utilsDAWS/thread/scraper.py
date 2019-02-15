@@ -19,6 +19,10 @@ import os
 import pickle
 from traceback import format_exc
 
+# general settings --------------------
+msg_title = '[scraper]'
+# -------------------- general settings
+
 class scraper():
     ''' multi-threading scraper '''
     def __init__( self, name='scrape', storage=config.path_data,\
@@ -102,7 +106,7 @@ class scraper():
                 self._save()
                 report.create_scraper_report( len(self.l_data), \
                                               len(self.l_s_errs), \
-                                              len(self.l_p_errs), msg="Some error presented!" )
+                                              len(self.l_p_errs), msg="{} Encountered errors".format( msg_title ) )
                 return
 
             pre = sorted( self.l_jobs )
@@ -122,7 +126,7 @@ class scraper():
         self._save()
         report.create_scraper_report( len(self.l_data), \
                                       len(self.l_s_errs), \
-                                      len(self.l_p_errs) )
+                                      len(self.l_p_errs), msg='{} finished'.format( msg_title ) )
 
     ''' README
     Commit the results.
@@ -175,8 +179,8 @@ class scraper():
             except Exception as err:
                 self.l_p_errs.append({'url': res.url, 'err': repr(err), 'trace': format_exc() })
             i += 1
-            print( f'Parsing..... {i}', end='\r' )
-        print( '\nParsing completed!\n' )
+            print( f'{msg_title} Parsing..... {i}', end='\r' )
+        print( '\n{msg_title} Parsing completed!\n' )
 
 ''' README
 
