@@ -22,7 +22,7 @@ from traceback import format_exc
 msg_title = '[worker]'
 # -------------------- general settings
 
-__all__ = [ 'worker' ]
+__all__ = [ 'worker', 'trigger_worker' ]
 
 # self-defined classes ---------------------------------------------
 class worker():
