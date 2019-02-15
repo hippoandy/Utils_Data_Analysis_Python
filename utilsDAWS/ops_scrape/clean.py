@@ -97,7 +97,7 @@ class cleaner():
                 # delete duplicate items
                 error = ops.list_deduplicated( error )
                 commitment = r'{}/{}'.format( path, result )
-                print( textwrap.dedent( f'''
+                print( textwrap.dedent( f'''\
                     Completed!
                     Remaining items:    {len( error )}
                     Commited into file: {commitment}
