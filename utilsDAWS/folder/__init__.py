@@ -1,1 +1,1 @@
-from .dir import *
+from .folder import *
