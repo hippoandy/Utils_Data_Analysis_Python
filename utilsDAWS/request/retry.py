@@ -16,6 +16,10 @@ import queue
 import requests
 from traceback import format_exc
 
+# general settings --------------------
+msg_title = '[retryer]'
+# -------------------- general settings
+
 __all__ = [ 'retryer' ]
 
 # self-defined classes ---------------------------------------------
@@ -51,10 +55,10 @@ class retryer():
 
     ''' ignitiate the thread '''
     def run( self ):
-        print( f'''Number of URLs to re-try: {len( self.obj_list )}''')
+        print( f'''{msg_title} Number of URLs to retry: {len( self.obj_list )}''')
         for obj in self.obj_list: self.job_queue.put( obj )
         self.job_queue.join()
-        print( 'Requester job finished!' )
+        print( f'''{msg_title} Operations finished!''' )
 
     ''' things for the thread to do '''
     def _job( self ):
