@@ -10,7 +10,7 @@ Return:
 '''
 from utilsDAWS import config
 from utilsDAWS import rw
-from utilsDAWS.stdout import report
+from utilsDAWS.stdout import report, stdout
 
 import threading
 import queue
@@ -102,7 +102,7 @@ class worker():
                 self.lock.acquire()
             finally:
                 self.finished += 1
-                report.general_progress( self.finished, len( self.obj_list ) )
+                stdout.general_progress( self.finished, len( self.obj_list ) )
                 self.lock.release()
                 self.job_queue.task_done()
 
@@ -129,29 +129,29 @@ Input:
   - partition: size of chunk
   - timeout: timeout for reqests
 '''
-def trigger_scraper( name='scrape', in_chunk=False,\
-    data=[], parse_funct=(lambda x: x.text),
-    start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
+# def trigger_scraper( name='scrape', in_chunk=False,\
+#     data=[], parse_funct=(lambda x: x.text),
+#     start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
 
-    # make sure the data is in the same order
-    data = sorted( data )
+#     # make sure the data is in the same order
+#     data = sorted( data )
 
-    # create the scraper object
-    s = scraper( concurrent=concurrent, timeout=timeout )
-    if( in_chunk ):
-        status = report.reporter()
-        for i in range( start, len( data ), partition ):
-            if( i > len( data ) ): break
+#     # create the scraper object
+#     s = scraper( concurrent=concurrent, timeout=timeout )
+#     if( in_chunk ):
+#         status = report.reporter()
+#         for i in range( start, len( data ), partition ):
+#             if( i > len( data ) ): break
 
-            status.create_progress_report( len( data ), i )
+#             status.create_progress_report( len( data ), i )
 
-            tail = (i + partition)
-            if( tail >= len( data ) ): tail = len( data )
+#             tail = (i + partition)
+#             if( tail >= len( data ) ): tail = len( data )
 
-            s.name_with( '{}_{}-{}'.format( name, i, tail ) )
-            s.input( data[ i:tail ] ).parse_with( parse_funct ).run()
-    # run in whole
-    else: s.name_with( name ).input( data ).parse_with( parse_funct ).run()
+#             s.name_with( '{}_{}-{}'.format( name, i, tail ) )
+#             s.input( data[ i:tail ] ).parse_with( parse_funct ).run()
+#     # run in whole
+#     else: s.name_with( name ).input( data ).parse_with( parse_funct ).run()
 
 if __name__ == '__main__':
     pass
