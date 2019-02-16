@@ -84,5 +84,4 @@ def create_cleaner_attempt_report( f_log, len_result ):
             Num. of remaining items: {len_result}
             File: {f_log} completed
         --------------------------------------------------
-        \n
     ''') )
