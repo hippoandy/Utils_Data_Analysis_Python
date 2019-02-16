@@ -275,11 +275,11 @@ def run_with_retry( data, name, name_retry,
         except: to_retry = []
 
         if( val.empty_struct( to_retry ) ):
-            file.rm_file( '{}_to-retry.json'.format( name_retry ) )
+            file.rm_file( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
             break
 
         if( sorted( to_retry ) == pre ):
-            file.rm_file( '{}_to-retry.json'.format( name_retry ) )
+            file.rm_file( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
             print( f'''{len( to_retry )} URLs failed to scrape!''' )
             rw.write_to_json( r'{}/{}'.format( config.path_data, '{}_failed.json'.format( name_retry ) ), to_retry )
             break
