@@ -254,6 +254,7 @@ def run_with_retry( data, name, name_retry,
     start = start
 
     pre = []
+    retried = 0
     while( True ):
         if( len( pre ) ): data = pre
 
@@ -281,7 +282,8 @@ def run_with_retry( data, name, name_retry,
 
         pre = sorted( to_retry )
         start = 0                   # important!!!
-        n_scraper = '{}_retry'.format( name )
+        retried += 1
+        n_scraper = '{}_retry_{}'.format( name, retried )
 
     # concate
     rw.concat_json_files( dir_files=config.path_data, files=r'{}_*json'.format( name ), \
