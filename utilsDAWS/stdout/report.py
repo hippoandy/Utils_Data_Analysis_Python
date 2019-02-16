@@ -78,9 +78,11 @@ Input:
 '''
 def create_cleaner_attempt_report( f_log, len_result ):
     print( textwrap.dedent( f'''\
+        \n
         --------------------------------------------------
         Still have items that not able to be removed......
             Num. of remaining items: {len_result}
             File: {f_log} completed
         --------------------------------------------------
+        \n
     ''') )
