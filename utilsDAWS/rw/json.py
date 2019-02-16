@@ -3,6 +3,7 @@ import os, glob
 
 from utilsDAWS import config
 from utilsDAWS import folder
+from utilsDAWS import file
 from utilsDAWS import value as val
 
 __all__ = [
@@ -36,7 +37,7 @@ Combine multiple csv format files into one.
 
 Return: data file commitment
 '''
-def concat_json_files( dir_files=config.path_data, files=config.f_data_json, dir_result=config.path_data, result=config.f_concated_json, encode=config.encoding_f ):
+def concat_json_files( dir_files=config.path_data, files=config.f_data_json, dir_result=config.path_data, result=config.f_concated_json, encode=config.encoding_f, del_empty=False ):
     concated = []
     for n in glob.glob( r'{}/{}'.format( dir_files, files ) ):
         if( 'err' in str(n) ): continue # prevent from reading the log files
@@ -45,10 +46,11 @@ def concat_json_files( dir_files=config.path_data, files=config.f_data_json, dir
         with open( n ) as f:
             try: content = json.loads( f.read() )
             except:
-                print( f'''File {n} is not well formated! Skip to the next file......''' )
+                print( f'''File {n} is not well formated! Skipped......''' )
                 continue
         if( val.empty_struct( content ) or content == None ):
-            print( f'''No content of file: {str(n)}! Skip to the next file......''' )
+            print( f'''No content of file: {str(n)}!''' )
+            if( del_empty ): file.rm_file( n )
             continue
         concated += content
     # commit the result

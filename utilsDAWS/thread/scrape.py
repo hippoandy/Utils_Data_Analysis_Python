@@ -11,6 +11,7 @@ Return: data file commitments.
 from utilsDAWS import config
 from utilsDAWS import value as val
 from utilsDAWS.file import clean
+from utilsDAWS.file import file
 from utilsDAWS import rw
 from utilsDAWS.stdout import report, stdout
 
@@ -273,9 +274,12 @@ def run_with_retry( data, name, name_retry,
         try:    to_retry = rw.read_from_json( r'{}/{}'.format( config.path_data, '{}_to-retry.json'.format( name_retry ) ) )
         except: to_retry = []
 
-        if( val.empty_struct( to_retry ) ): break
+        if( val.empty_struct( to_retry ) ):
+            file.rm_file( '{}_to-retry.json'.format( name_retry ) )
+            break
 
         if( sorted( to_retry ) == pre ):
+            file.rm_file( '{}_to-retry.json'.format( name_retry ) )
             print( f'''{len( to_retry )} URLs failed to scrape!''' )
             rw.write_to_json( r'{}/{}'.format( config.path_data, '{}_failed.json'.format( name_retry ) ), to_retry )
             break
@@ -287,7 +291,7 @@ def run_with_retry( data, name, name_retry,
 
     # concate
     rw.concat_json_files( dir_files=config.path_data, files=r'{}_*json'.format( name ), \
-        dir_result=config.path_data, result=r'{}.json'.format( name ), encode=encode )
+        dir_result=config.path_data, result=r'{}.json'.format( name ), encode=encode, del_empty=True )
 
 if __name__ == '__main__':
     pass
