@@ -250,13 +250,14 @@ Input:
 def run_with_retry( data, name, name_retry,
     parse_funct, attemp_acc_funct, start, concurrent, partition, timeout, encode ):
 
+    n_scraper = name
     start = start
 
     pre = []
     while( True ):
         if( len( pre ) ): data = pre
 
-        trigger_scraper( name=name, in_chunk=True,\
+        trigger_scraper( name=n_scraper, in_chunk=True,\
             data=data, parse_funct=parse_funct,\
             start=start, concurrent=concurrent, partition=partition, timeout=timeout )
 
@@ -280,6 +281,7 @@ def run_with_retry( data, name, name_retry,
 
         pre = sorted( to_retry )
         start = 0                   # important!!!
+        n_scraper = '{}_retry'.format( name )
 
     # concate
     rw.concat_json_files( dir_files=config.path_data, files=r'{}_*json'.format( name ), \
