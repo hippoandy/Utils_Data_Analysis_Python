@@ -250,6 +250,8 @@ Input:
 def run_with_retry( data, name, name_retry,
     parse_funct, attemp_acc_funct, start, concurrent, partition, timeout, encode ):
 
+    start = start
+
     pre = []
     while( True ):
         if( len( pre ) ): data = pre
@@ -270,11 +272,14 @@ def run_with_retry( data, name, name_retry,
         except: to_retry = []
 
         if( val.empty_struct( to_retry ) ): break
-        pre = sorted( to_retry )
 
-        if( sorted( data ) == pre ):
-            print( f'''{len( pre )} URLs failed to scrape!''' )
+        if( sorted( to_retry ) == pre ):
+            print( f'''{len( to_retry )} URLs failed to scrape!''' )
+            rw.write_to_json( r'{}/{}'.format( config.path_data, '{}_failed.json'.format( name_retry ) ), to_retry )
             break
+
+        pre = sorted( to_retry )
+        start = 0                   # important!!!
 
     # concate
     rw.concat_json_files( dir_files=config.path_data, files=r'{}_*json'.format( name ), \
