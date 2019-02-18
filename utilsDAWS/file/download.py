@@ -1,5 +1,5 @@
 from utilsDAWS.log import logger
-from utilsDAWS import file
+from utilsDAWS.file import file
 
 import glob
 import urllib.request
@@ -20,3 +20,7 @@ def download( url, f_storage, f_name, f_type ):
 
     try: urllib.request.urlretrieve( url, f_path )
     except: l.commit( type='error', msg=f'Failed to download: {url}' )
+
+
+if __name__ == '__main__':
+    download( 'https://api.mercadolibre.com/sites/MLB/categories/all', './', 'test', 'gz' )
