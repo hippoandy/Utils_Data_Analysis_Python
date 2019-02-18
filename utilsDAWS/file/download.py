@@ -1,6 +1,6 @@
 from utilsDAWS.log import logger
-from utilsDAWS.file import file
-from utilsDAWS.file import folder
+from utilsDAWS import file
+from utilsDAWS import folder
 
 import glob
 import urllib.request
