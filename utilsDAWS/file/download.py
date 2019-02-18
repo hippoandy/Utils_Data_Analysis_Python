@@ -14,6 +14,7 @@ def download( url, f_storage, f_name, f_type ):
     l = logger( fname=r'dl_failed.log' )
 
     f_path = r'{}/{}'.format( f_storage, r'{}.{}'.format( f_name, f_type ) )
+    file.mkdir_p( f_path )
     if( file.is_file_exist( f_path ) ):
         num = len( glob.glob( r'{}/{}'.format( f_storage, r'{}*'.format( f_name ) ) ) )
         f_path = r'{}/{}'.format( f_storage, r'{}_({}).{}'.format( f_name, (num + 1), f_type ) )
