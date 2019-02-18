@@ -11,7 +11,7 @@ __all__ = [
 # function to download the files
 def download( url, f_storage, f_name, f_type ):
     # create the logger
-    l = logger( fname=r'dl_failed' )
+    l = logger( fname=r'dl_failed.log' )
 
     f_path = r'{}/{}'.format( f_storage, r'{}.{}'.format( f_name, f_type ) )
     if( file.is_file_exist( f_path ) ):
@@ -23,4 +23,4 @@ def download( url, f_storage, f_name, f_type ):
 
 
 if __name__ == '__main__':
-    download( 'https://api.mercadolibre.com/sites/MLB/categories/all', './', 'test', 'gz' )
+    pass
