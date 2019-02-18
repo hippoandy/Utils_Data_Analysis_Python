@@ -1,4 +1,4 @@
-from utilsDAWS import logger
+from utilsDAWS.log import logger
 from utilsDAWS import file
 
 import glob
