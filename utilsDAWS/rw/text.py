@@ -39,7 +39,7 @@ def concat_text_files( dir_files=config.path_data, files=config.f_data_txt, \
     encode=config.encoding_f, \
     del_origin=False, del_empty=False ):
 
-    with open( r'{}/{}'.format( dir_result, result ), 'r', encoding=encode ) as result:
+    with open( r'{}/{}'.format( dir_result, result ), 'w+', encoding=encode ) as result:
         for n in glob.glob( r'{}/{}'.format( dir_files, files ) ):
             f = open( n, 'r', encoding=encode )
             for l in f.readlines(): result.write( l + '\n' )
