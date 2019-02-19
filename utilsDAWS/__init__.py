@@ -6,5 +6,3 @@ from .rw import *
 from .stdout import *
 from .thread import *
 from .value import *
-
-import config
