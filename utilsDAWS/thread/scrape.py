@@ -248,8 +248,10 @@ Input:
     - partition: size of chunk
     - timeout: timeout for reqests
 '''
-def run_with_retry( data, name, name_retry,
-    parse_funct, attemp_acc_funct, start, concurrent, partition, timeout, encode ):
+def run_with_retry( data, name, name_retry, \
+    parse_funct, attemp_acc_funct, \
+    start, concurrent, partition, timeout, \
+    encode, concate_result=True, del_origin=False, del_empty=False ):
 
     n_scraper = name
     start = start
@@ -289,9 +291,10 @@ def run_with_retry( data, name, name_retry,
         retried += 1
         n_scraper = '{}_retry_{}'.format( name, retried )
 
-    # concate
-    rw.concat_json_files( dir_files=config.path_data, files=r'{}_*json'.format( name ), \
-        dir_result=config.path_data, result=r'{}.json'.format( name ), encode=encode, del_empty=True )
+    if( concate_result ):
+        # concate
+        rw.concat_json_files( dir_files=config.path_data, files=r'{}_*json'.format( name ), \
+            dir_result=config.path_data, result=r'{}.json'.format( name ), encode=encode, del_origin=del_origin, del_empty=del_empty )
 
 if __name__ == '__main__':
     pass

@@ -37,7 +37,10 @@ Combine multiple csv format files into one.
 
 Return: data file commitment
 '''
-def concat_json_files( dir_files=config.path_data, files=config.f_data_json, dir_result=config.path_data, result=config.f_concated_json, encode=config.encoding_f, del_empty=False ):
+def concat_json_files( dir_files=config.path_data, files=config.f_data_json, \
+    dir_result=config.path_data, result=config.f_concated_json, \
+    encode=config.encoding_f, \
+    del_origin=False, del_empty=False ):
     concated = []
     for n in glob.glob( r'{}/{}'.format( dir_files, files ) ):
         if( 'err' in str(n) ): continue # prevent from reading the log files
@@ -55,6 +58,9 @@ def concat_json_files( dir_files=config.path_data, files=config.f_data_json, dir
         concated += content
     # commit the result
     write_to_json( r'{}/{}'.format( dir_result, result ), concated )
+
+    if( del_origin ):
+        for n in glob.glob( r'{}/{}'.format( dir_files, files ) ): file.rm_file( n )
 
 if __name__ == '__main__':
     pass
