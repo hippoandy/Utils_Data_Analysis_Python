@@ -1,8 +1,6 @@
-import glob
+from utilsDAWS import config
 
-import sys
-sys.path.append( '..' )
-import config
+import glob
 
 __all__ = [
     'write_to_text',
