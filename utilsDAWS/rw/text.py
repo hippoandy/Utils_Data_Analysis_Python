@@ -42,7 +42,10 @@ def concat_text_files( dir_files=config.path_data, files=config.f_data_txt, \
     with open( r'{}/{}'.format( dir_result, result ), 'w+', encoding=encode ) as result:
         for n in glob.glob( r'{}/{}'.format( dir_files, files ) ):
             f = open( n, 'r', encoding=encode )
-            for l in f.readlines(): result.write( l + '\n' )
+            for l in f.readlines():
+                if( '\n' not in l ): to_append = l + '\n'
+                else: to_append = l
+                result.write( to_append )
     result.close()
 
 if __name__ == '__main__':
