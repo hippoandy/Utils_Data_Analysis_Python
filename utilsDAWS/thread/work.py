@@ -162,7 +162,7 @@ def trigger_worker( name='work', in_chunk=False,\
         w.input( data )
 
         if( result_to_file ):
-            w.output( '{}_{}-{}'.format( output_name, i, tail ), output_type ).output_header( output_header )
+            w.output( '{}'.format( output_name ), output_type ).output_header( output_header )
 
         w.work_with( work_funct ).run()
 
