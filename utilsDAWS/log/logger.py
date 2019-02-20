@@ -34,5 +34,5 @@ class logger():
         elif( type == 'warning' ):  logging.warning( msg )
         elif( type == 'debug' ):    logging.debug( msg )
         elif( type == 'except' ):   logging.exception( msg )
-        else:                       logging.error( msg )
+        else:                       logging.info( msg )
     
