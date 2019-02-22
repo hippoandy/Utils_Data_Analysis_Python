@@ -30,6 +30,7 @@ class worker():
     def __init__( self, name='worker', timeout=10, concurrent=10, result_to_file=False ):
         self.name = name
         self.ext = ''
+        self.encode = ''
         self.data_path = r'{}/{}'.format( config.path_data, name )
         self.out_header = ''
 
@@ -68,9 +69,10 @@ class worker():
         return self
 
     ''' set the output file path, name, and extension '''
-    def output( self, name, ext ):
+    def output( self, name, ext, encode ):
         self.name = name
         self.ext = ext
+        self.encode = encode
         self.data_path = r'{}/{}.{}'.format( config.path_data, self.name, self.ext )
         return self
 
@@ -87,7 +89,7 @@ class worker():
 
         if( self.result_to_file ): 
             # commit the results
-            rw.list_to_csv( self.data_path, self.data_list, header=self.out_header )
+            rw.list_to_csv( self.data_path, self.data_list, header=self.out_header, encode=self.encode )
         print( f'''{msg_title} Operations finished!''' )
 
     ''' things for the thread to do '''
@@ -132,7 +134,7 @@ Input:
 '''
 def trigger_worker( name='work', in_chunk=False,\
     data=[], work_funct=(lambda x: x.text), result_to_file=False,\
-    output_header='', output_name='', output_type='', 
+    output_header='', output_name='', output_type='', encode=config.encoding_f,
     start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
 
     # make sure the data is in the same order
@@ -153,7 +155,7 @@ def trigger_worker( name='work', in_chunk=False,\
             w.input( data[ i:tail ] )
             
             if( result_to_file ):
-                w.output( '{}_{}-{}'.format( output_name, i, tail ), output_type ).output_header( output_header )
+                w.output( '{}_{}-{}'.format( output_name, i, tail ), output_type, encode=encode ).output_header( output_header )
 
             w.work_with( work_funct ).run()
 
@@ -162,7 +164,7 @@ def trigger_worker( name='work', in_chunk=False,\
         w.input( data )
 
         if( result_to_file ):
-            w.output( '{}'.format( output_name ), output_type ).output_header( output_header )
+            w.output( '{}'.format( output_name ), output_type, encode=encode ).output_header( output_header )
 
         w.work_with( work_funct ).run()
 
