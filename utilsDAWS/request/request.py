@@ -4,9 +4,19 @@ import requests
 import textwrap
 
 __all__ = [
+    'error_403', 'error_404',
     'is_api_success', 'api_json_available',
     'send_req',
 ]
+
+
+def error_403( status_code ):
+    if( status_code == 403 ):   return True
+    else:                       return False
+
+def error_404( status_code ):
+    if( status_code == 404 ):   return True
+    else:                       return False
 
 ''' README
 
