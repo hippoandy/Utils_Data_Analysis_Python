@@ -251,7 +251,7 @@ Input:
 def run_with_retry( data, name, name_retry, \
     parse_funct, attemp_acc_funct, \
     start, concurrent, partition, timeout, \
-    encode, concate_result=True, del_origin=False, del_empty=False ):
+    encode=config.encoding_f, concate_result=True, del_origin=False, del_empty=False ):
 
     n_scraper = name
     start = start
