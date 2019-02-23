@@ -34,7 +34,7 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
         '''))
         return
     # make sure the data folder exists
-    folder.mkdir_p( r_path_f )
+    folder.create_parent_dir( r_path_f )
     # open result data file
     f = open( r_path_f, 'w', encoding=encode, errors='ignore' )
     f.write( '{}\n'.format( header ) )
