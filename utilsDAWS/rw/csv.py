@@ -26,7 +26,7 @@ Input:
 Author: Yu-Chang Ho (Andy)
 '''
 
-def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
+def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8", del_empty=False ):
     if( header == "" ):
         print( textwrap.dedent( f'''
             Please specify the csv header in comma seperated string!
@@ -61,6 +61,8 @@ def json_to_csv( d_path, r_path_f, e_path_f, header="", encode="utf-8" ):
                 try:
                     f.write( '{}\n'.format( ','.join( dpoint ) ) )
                 except: err.append( e )
+        else:
+            if( del_empty ): file.rm_file( n )
 
     if( not val.empty_struct( err ) ):
         folder.mkdir_p( e_path_f )
