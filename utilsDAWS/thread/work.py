@@ -14,6 +14,7 @@ from utilsDAWS.stdout import report, stdout
 
 import threading
 import queue
+import time
 
 import textwrap
 from traceback import format_exc
@@ -132,7 +133,7 @@ Input:
   - partition: size of chunk
   - timeout: timeout for reqests
 '''
-def trigger_worker( name='work', in_chunk=False,\
+def trigger_worker( name='work', in_chunk=False, wait_between_chunk=0,\
     data=[], work_funct=(lambda x: x.text), result_to_file=False,\
     output_header='', output_name='', output_type='', encode=config.encoding_f,
     start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
@@ -158,6 +159,8 @@ def trigger_worker( name='work', in_chunk=False,\
                 w.output( '{}_{}-{}'.format( output_name, i, tail ), output_type, encode=encode ).output_header( output_header )
 
             w.work_with( work_funct ).run()
+
+            time.sleep( wait_between_chunk )
 
     # run in whole
     else:
