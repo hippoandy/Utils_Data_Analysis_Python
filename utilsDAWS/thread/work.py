@@ -70,7 +70,7 @@ class worker():
         return self
 
     ''' set the output file path, name, and extension '''
-    def output( self, name, ext, encode ):
+    def output( self, name, ext, encode=config.encoding_f ):
         self.name = name
         self.ext = ext
         self.encode = encode
