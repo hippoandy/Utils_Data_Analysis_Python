@@ -145,7 +145,7 @@ def trigger_worker( name='work', in_chunk=False, wait_between_chunk=0,\
     w = worker( name=name, concurrent=concurrent, timeout=timeout, result_to_file=result_to_file )
     if( in_chunk ):
         status = report.reporter()
-        for i in range( 0, len(data), partition ):
+        for i in range( start, len(data), partition ):
             if( i > len( data) ): break
 
             status.create_progress_report( len( data ), i )
