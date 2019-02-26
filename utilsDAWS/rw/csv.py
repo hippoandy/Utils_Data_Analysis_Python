@@ -84,7 +84,7 @@ def list_to_csv( path, list_, header='', encode='utf-8' ):
             append_newline( f, header )
         for l in list_:
             f.write( str(l) )
-            append_newline( f, l )
+            append_newline( f, str(l) )
         f.close()
 
 '''README
