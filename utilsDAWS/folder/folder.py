@@ -21,6 +21,15 @@ def mkdir_p( path ):
 
 ''' README
 
+Create the folder for a given folder path
+
+Return: Nil
+'''
+def create_dir( path ):
+    mkdir_p( path )
+
+''' README
+
 Create the parent folder for a given file path
 
 Return: Nil
