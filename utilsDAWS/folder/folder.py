@@ -46,7 +46,7 @@ Check if dir exist.
 
 Return: boolean value
 '''
-def is_parent_dir_exist( path ):
+def is_dir_exist( path ):
     if( os.path.exists( path ) ): return True
     else: return False
 
