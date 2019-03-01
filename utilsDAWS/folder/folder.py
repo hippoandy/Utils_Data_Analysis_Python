@@ -4,7 +4,8 @@ import os
 __all__ = [
     'mkdir_p',
     'create_parent_dir',
-    'is_parent_dir_exist'
+    'is_dir_exist',
+    'is_parent_dir_exist',
 ]
 
 ''' README
@@ -38,6 +39,16 @@ def create_parent_dir( path ):
     if( not is_parent_dir_exist( path ) ):
         path_parent = os.path.dirname( path )
         mkdir_p( path_parent )
+
+''' README
+
+Check if dir exist.
+
+Return: boolean value
+'''
+def is_parent_dir_exist( path ):
+    if( os.path.exists( path ) ): return True
+    else: return False
 
 ''' README
 
