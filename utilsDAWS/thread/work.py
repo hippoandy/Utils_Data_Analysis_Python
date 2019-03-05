@@ -138,8 +138,10 @@ def trigger_worker( name='work', in_chunk=False, wait_between_chunk=0,\
     output_header='', output_name='', output_type='', encode=config.encoding_f,
     start=config.start, concurrent=config.concurrent, partition=config.partition, timeout=config.timeout ):
 
-    # make sure the data is in the same order
-    data = sorted( data )
+    try:
+        # make sure the data is in the same order
+        data = sorted( data )
+    except: data = data # not able to sort list of dict, list
 
     # create worker class
     w = worker( name=name, concurrent=concurrent, timeout=timeout, result_to_file=result_to_file )
