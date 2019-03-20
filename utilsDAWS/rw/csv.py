@@ -10,7 +10,8 @@ from utilsDAWS import value as val
 
 __all__ = [
     'json_to_csv', 'list_to_csv',
-    'concat_csv_files'
+    'concat_csv_files',
+    'merge_csv_files',
 ]
 
 ''' README
