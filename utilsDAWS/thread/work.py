@@ -90,6 +90,7 @@ class worker():
 
         if( self.result_to_file ): 
             # commit the results
+            print( self.encode )
             rw.list_to_csv( self.data_path, self.data_list, header=self.out_header, encode=self.encode )
         print( f'''{msg_title} Operations finished!''' )
 
