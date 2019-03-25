@@ -104,7 +104,7 @@ def concat_csv_files( dir_files=config.path_data, files=config.f_data_csv, dir_r
     for n in glob.glob( r'{}/{}'.format( dir_files, files ) ):
         if( 'err' in str(n) ): continue # prevent from reading the log files
 
-        df = pd.read_csv( n, header=0, encoding=config.encoding_f )
+        df = pd.read_csv( n, header=0, encoding=encode )
         list_.append( df )
 
     df = pd.concat( list_, axis=0, ignore_index=True )
