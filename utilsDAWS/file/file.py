@@ -17,5 +17,8 @@ def is_file_exist( path ):
     if( f.is_file() ): return True
     else: return False
 
-def rm_file( fpath ):
-    if( os.path.isfile( fpath ) ): os.remove( fpath )
+def rm_file( path ):
+    if( os.path.isfile( path ) ): os.remove( path )
+
+def del_empty_file( path ):
+    if( os.stat( path ).st_size == 0 ): rm_file( path )
